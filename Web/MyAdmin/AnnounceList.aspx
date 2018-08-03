@@ -151,13 +151,14 @@
                               <input type="text" name="atitle" id="atitle" value="<%=atitle %>" placeholder="请输入公告标题" autocomplete="off" class="layui-input" style="height:30px;width:130px; margin-right:6px;" /> 
                             </td>
                             <td>
-                              <button id="search" type="submit" class="layui-btn layui-btn-small layui-btn-normal " >查找公告</button>
+                              <button id="search" type="submit" class="layui-btn layui-btn-small layui-btn-normal " ><i class="layui-icon">&#xe615;</i>查找公告</button>
                             </td>
                          </tr>
                      </table>
                 </form> 
             </div>
-            <button id="publish" class="layui-btn layui-btn-small layui-btn-normal " style="float:right;">发布通知</button>
+            <button type="button" class="layui-btn layui-btn-small layui-btn-normal" onclick="window.location='/MyAdmin/AnnounceList.aspx'"><i class="layui-icon">&#x1002;</i>刷新</button>
+            <button id="publish" class="layui-btn layui-btn-small layui-btn-normal " style="float:right;"><i class="layui-icon">&#xe61f;</i>发布通知</button>
         </div>
                
         <table class="layui-table" lay-even="" lay-skin="nob" id="table">    <%--nob无边框--%>

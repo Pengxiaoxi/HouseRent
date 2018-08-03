@@ -56,15 +56,21 @@
                             </font>
                             
                         <%}
-                    %>
-                    
+                    %>                  
                 </a>
-
                 <dl class="layui-nav-child">
-                    <%--<dd><a href="javascript:;" href-url="demo/login.html"><i class="layui-icon">&#xe621;</i>登录页</a></dd>--%>
-                    <%--<dd><a href="javascript:;" href-url="demo/map.html"><i class="layui-icon">&#xe621;</i>图表</a></dd>--%>
                     <dd><a href="/MyAdmin/AdminLoginout.ashx"><i class="layui-icon">&#x1006;</i>安全退出</a></dd>
                 </dl>
+            </li>
+            <li>
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">开关-默认开</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+                        </div>
+                    </div>
+                 </form>
             </li>
         </ul>
 

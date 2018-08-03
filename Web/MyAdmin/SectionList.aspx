@@ -164,7 +164,8 @@
 
     <div style="text-align: left;">
         <button class="layui-btn layui-btn-small layui-btn-danger" onclick="deletelist()"><i class="layui-icon">&#xe640;</i>批量删除</button>
-        <button id="add" class="layui-btn layui-btn-small layui-btn-normal" style="float: right;">新增板块</button>
+        <button type="button" class="layui-btn layui-btn-small layui-btn-normal" onclick="window.location='/MyAdmin/SectionList.aspx'"><i class="layui-icon">&#x1002;</i>刷新</button>
+        <button id="add" class="layui-btn layui-btn-small layui-btn-normal" style="float: right;"><i class="layui-icon">&#xe61f;</i>新增板块</button>
     </div>
 
     <table class="layui-table" lay-even="" lay-skin="nob">

@@ -9,6 +9,16 @@
     <link href="frame/layui/css/layui.css" rel="stylesheet" />
     <link href="frame/static/css/style.css" rel="stylesheet" />
 
+    <style>
+         #d1 .layui-input, .layui-select{
+            height:30px;
+        }
+    </style>
+
+    <script src="/MyAdmin/frame/layui/layui.js"></script>
+    <script src="/MyAdmin/js/jquery-1.11.1.js"></script>
+    <script src="/MyAdmin/My97DatePicker/WdatePicker.js"></script>   <%--时间选择器--%>
+
     <%--判断是否在框架（/MyAdmin/Default.aspx）中打开--%>
     <script>
         var url = parent.location.pathname;
@@ -17,6 +27,10 @@
             window.location.href = "/MyAdmin/AdminLogin.aspx";
         }
 
+        //在 layui 中使用 layer  打开弹出层！！！
+        layui.use('layer', function () {
+            var layer = layui.layer;
+        });
 
         //layui中下拉框不显示，需要声明该表单
         layui.use('form', function () {
@@ -35,34 +49,28 @@
         <div style="text-align:left;height:30px; padding:0;" >        
             <form class="layui-form" runat="server" style="height:30px;" id="d1">
                 <button class="layui-btn layui-btn-small layui-btn-danger" type="button" style="float:left;" onclick="deletelist()"><i class="layui-icon">&#xe640;</i>批量删除</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="hname" id="hname" value="" placeholder="请输入房屋名称..." autocomplete="off" class="layui-input" style="height:30px;width:130px; margin-left:20px; float:left;" /> 
+                <input type="text" name="hname" id="uname" value="" placeholder="请输入用户昵称或姓名" autocomplete="off" class="layui-input" style="height:30px;width:155px; margin-left:20px; float:left;" /> 
                 <div class="layui-inline" style="height:30px; width:150px;" >
                     <div class="layui-input-inline" >
-                        <select name="sid">
-                            <option value="">请选择房屋板块</option>
-                            <%
-                                
-                                {%>
-                                    <option value=""  >123</option>
-                                <%}
-                            %>
+                        <select name="utype">
+                            <option value="">请选择用户类型</option>
+                            <option value="0">待审核</option>
+                            <option value="1">租赁者</option>
+                            <option value="2">房主</option>
                         </select>
                     </div>
                 </div>
                 <div class="layui-inline" style="height:30px; width:150px;">
-                    <div class="layui-input-inline" >
-                        <select name="htype">
-                            <option value="">请选择房屋类型</option>
-                            <%
-                                
-                                {%>
-                                    <option value=""  >123</option>
-                                <%}
-                            %>
-                        </select>
+                    <div class="layui-input-inline">      
+                        <input type="text" name="starttime" value="" onclick="WdatePicker()" placeholder="请选择起始时间"  style="height:28px;width:120px;text-align:center; margin-left:18px;border: 1px solid #e6e6e6" /> 
                     </div>
                 </div>
-                <button id="search" type="submit" class="layui-btn layui-btn-small layui-btn-normal " >查询</button>
+                <div class="layui-inline" style="height:30px; width:150px;">
+                    <div class="layui-input-inline">      
+                        <input type="text" name="endtime" value="" onclick="WdatePicker()" placeholder="请选择结束时间"  style="height:28px;width:120px;text-align:center; margin-left:4px;border: 1px solid #e6e6e6" /> 
+                    </div>
+                </div>
+                <button id="search" type="submit" class="layui-btn layui-btn-small layui-btn-normal " >查询用户</button>
             </form>     
         </div>
         <table class="layui-table" lay-even="" lay-skin="nob">

@@ -50,7 +50,8 @@
         {
             $("hid").val(hid);
             $("#name").val(hname);
-            $("#section").val(sid);
+            //$("#section").val(sid);
+            $("input[name='section']").val(sid);
             $("#tid").val(htype);
             $("#size").val(hsize);
             $("#floor").val(hfloor);
@@ -65,7 +66,32 @@
             $("#imgPr4").attr("src", photo4);
             $("#status").val(hstatus);
             $("#mode").val(hmode);
+            //alert(sid);
+            //alert(htype);
+            //alert(harea);
 
+            var form = document.getElementById('fm');
+            var formData = new FormData(form);
+            //alert(formData);
+
+            $.ajax({
+                type: "POST",
+                url: "/MyAdmin/HouseList.aspx?flag=update",
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (msg) {
+                    if (msg) {
+                        layer.msg('该房屋信息修改成功!', { icon: 1 });
+                        setTimeout("window.location.reload(true)", 600);
+                    }
+                    else {
+                        layer.msg('房屋信息修改失败!', { icon: 5 })
+                    }
+                }
+            });
 
             layer.open({
                 type: 1,
@@ -137,7 +163,8 @@
         //清空弹出层form表单中的内容
         function resetValue() {
             $("#name").val("");
-            $("#section").val("");
+            var sid = $("#section").val();
+            alert(sid);
             $("#tid").val("");
             $("#size").val("");
             $("#floor").val("");
@@ -173,7 +200,7 @@
             <legend>房屋信息管理</legend>
         </fieldset>
         <div style="text-align:left;height:30px; padding:0;" >        
-            <form class="layui-form" runat="server" style="height:30px;" id="d1">
+            <form class="layui-form" action="/MyAdmin/HouseList.aspx" method="post" style="height:30px;" id="d1">
                 <button class="layui-btn layui-btn-small layui-btn-danger" type="button" style="float:left;" onclick="deletelist()"><i class="layui-icon">&#xe640;</i>批量删除</button>&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="text" name="hname" id="hname" value="<%=hname %>" placeholder="请输入房屋名称..." autocomplete="off" class="layui-input" style="height:30px;width:130px; margin-left:20px; float:left;" /> 
                 <div class="layui-inline" style="height:30px; width:150px;" >
@@ -244,7 +271,8 @@
                         </select>
                     </div>
                 </div>
-                <button id="search" type="submit" class="layui-btn layui-btn-small layui-btn-normal " >查询</button>
+                <button id="search" type="submit" class="layui-btn layui-btn-small layui-btn-normal " ><i class="layui-icon">&#xe615;</i>查询</button>
+                <button type="button" class="layui-btn layui-btn-small layui-btn-normal" onclick="window.location='/MyAdmin/HouseList.aspx'"><i class="layui-icon">&#x1002;</i>刷新</button>
             </form>     
         </div>
 
@@ -327,10 +355,10 @@
 			</ul>
 		</div>
 
-            <%--弹出层，发布公告--%>
+            <%--弹出层，修改房屋信息--%>
         <div id="updatehouse" class="layui-elem-field layui-field-title" style="display:none;">
             <div class="layui-col-md10" style="padding-right:0px;">
-                <form class="layui-form layui-form-pane" id="fm" action="/MyAdmin/HouseList.aspx" method="post";>
+                <form class="layui-form layui-form-pane" id="fm" runat="server">
                     <input type="hidden" id="hid" name="hid" value=""/>
                     <div class="layui-form-item">
                         <label class="layui-form-label">房屋名称</label>
@@ -341,14 +369,12 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">房屋板块</label>
                         <div class="layui-input-block">
-                            <select style="width:auto;" name="section" id="section">
-                                <option value="">请选择房屋板块</option>
+                            <select name="section" id="section">
+                                <%--<option value="">请选择房屋板块</option>--%>
                                 <%
                                     foreach (myhouse.Model.Section section in sectionList)
                                     {%>
-                                        <%--<option value="<%=section.sid %>" <%=sid == section.sid.ToString() ? "selected" : "" %> ><%=section.sname %></option>--%>
-
-                                        <option value="<%=section.sid %>" ><%=section.sname %></option>
+                                        <option value="<%=section.sid %>"><%=section.sname %></option>
                                     <%}
                                 %>
                             </select>
@@ -362,7 +388,7 @@
                                 <%
                                     foreach (myhouse.Model.Housetype housetype in hyList)
                                     {%>
-                                        <option value="<%=housetype.tid %>" ><%=housetype.ttype %></option>
+                                        <option value="<%=housetype.tid %>"><%=housetype.ttype %></option>
                                     <%}
                                 %>
                             </select>
@@ -400,7 +426,7 @@
                             <%
                                 foreach (myhouse.Model.Area area in areaList )
                                 {%>
-                                    <option value="<%=area.areaid %>" ><%=area.areaname %></option>
+                                    <option value="<%=area.areaid %>"><%=area.areaname %></option>
                                 <%}
                             %>
                             </select>
@@ -461,7 +487,6 @@
                             </select>
                         </div>
                     </div>
-                    
                     <div class="layui-form-item" style="padding-left:110px;margin-top:40px;">
                         <input type="button" class="layui-btn layui-btn-danger" onclick="myclose()" value="取消" />
                         <input type="button" style="float:right;" class="layui-btn layui-btn-normal" onclick="mypublish()" value="保存"/>
