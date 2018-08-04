@@ -21,7 +21,10 @@ namespace myhouse.Web.MyAdmin
         public List<User> userList { get; set; }
         public string pageCode { get; set; }
 
+
         UserService userService = new UserService();
+        HouseService houseService = new HouseService();
+        ContractService contractService = new ContractService();
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -70,30 +73,80 @@ namespace myhouse.Web.MyAdmin
                 endtime = Request.QueryString["endtime"];
                 order = Request.QueryString["order"];
             }
-
             ArrayList list = userService.FindUserByPageOnWhere(page, unickname, utype, starttime, endtime, order);
             //取出存储的分页列表与链接
             userList = (List<User>)list[0];
             pageCode = list[1].ToString();
-        }
 
+            //发布数与收藏数
+            foreach (User user in userList)
+            {
+                user.publishernumber = houseService.GetRecordCount("uid=" + user.uid);
+                user.collectnumber = contractService.GetRecordCount("uid=" + user.uid);
+            }
+
+            
+        }
         //修改后更新用户信息
         protected void updateuser()
         {
 
         }
 
-        //单个删除用户信息及其发布的房屋信息
+        //单个删除用户信息及其发布的房屋信息,用户的收藏信息也要删除
         protected void deleteuser()
         {
+            int uid = Int32.Parse(Request["uid"]);
+            try
+            {
+                contractService.DeleteByUid(uid);
+                houseService.DeleteByUid(uid);
 
+                if (userService.Delete(uid)){
+                    Response.Write(true);
+                    Response.End();
+                }
+                else{
+                    Response.Write(false);
+                    Response.End();
+                }
+            }
+            catch(Exception)
+            {
+                Response.Write(false);
+                Response.End();
+            }
         }
 
         //批量删除用户信息及其发布的所有的房屋的信息
         protected void deletelist()
         {
+            string ids = Request["ids"];
+            string[] idlist = ids.Split(',');  //切割存放到数组
+            try
+            {
+                for (int i = 0; i < idlist.Length; i++)
+                {
+                    contractService.DeleteByUid(Int32.Parse(idlist[i]));
+                    houseService.DeleteByUid(Int32.Parse(idlist[i]));
 
+                    if (userService.DeleteList(ids))
+                    {
+                        Response.Write(true);
+                        Response.End();
+                    }
+                    else
+                    {
+                        Response.Write(false);
+                        Response.End();
+                    }
+                }   
+            }
+            catch (Exception)
+            {
+                Response.Write(false);
+                Response.End();
+            }
         }
-
     }
 }

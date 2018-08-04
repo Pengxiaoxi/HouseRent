@@ -263,7 +263,6 @@ namespace myhouse.DAL
         /// </summary>
         public bool Delete(int hid)
 		{
-			
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("delete from t_house ");
 			strSql.Append(" where hid=@hid");
@@ -283,8 +282,7 @@ namespace myhouse.DAL
 			}
 		}
 
-
-        // 通过外键sid删除一条数据     
+        // 通过外键sid删除数据     
         public bool DeleteBySid(int sid)
         {
 
@@ -295,6 +293,28 @@ namespace myhouse.DAL
                     new SqlParameter("@sid", SqlDbType.Int,4)
             };
             parameters[0].Value = sid;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // 通过外键uid删除数据(删除该用户发布的所有房屋信息)
+        public bool DeleteByUid(int uid)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from t_house ");
+            strSql.Append(" where uid=@uid");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@uid", SqlDbType.Int,4)
+            };
+            parameters[0].Value = uid;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)

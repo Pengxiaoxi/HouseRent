@@ -24,10 +24,32 @@ namespace myhouse.Model
 		private DateTime? _uregtime;
 		private string _ucredit;
 		private string _utype;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int uid
+
+
+        //private string _publishnumber;
+        //private string _collectnumber;
+
+        //public string publishnumber
+        //{
+        //    set { _publishnumber=value; }
+        //    get { return _publishnumber; }
+        //}
+
+        //public string collectnumber
+        //{
+        //    set { _collectnumber = value; }
+        //    get { return _collectnumber; }
+        //}
+
+        //发布数与收藏数
+        public int publishernumber { get; set; }
+        public int collectnumber { get; set; }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int uid
 		{
 			set{ _uid=value;}
 			get{return _uid;}

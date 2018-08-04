@@ -106,8 +106,6 @@ namespace myhouse.BLL
         }
 
 
-
-
 		/// <summary>
 		/// 得到最大ID
 		/// </summary>

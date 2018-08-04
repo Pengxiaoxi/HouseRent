@@ -141,10 +141,34 @@ namespace myhouse.DAL
 				return false;
 			}
 		}
-		/// <summary>
-		/// 删除一条数据
-		/// </summary>
-		public bool Delete(int uid,int hid,int cid)
+
+        //通过外键uid删除数据
+        public bool DeleteByUid(int uid)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from t_contract ");
+            strSql.Append(" where uid=@uid");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@uid", SqlDbType.Int,4)
+            };
+            parameters[0].Value = uid;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// 删除一条数据
+        /// </summary>
+        public bool Delete(int uid,int hid,int cid)
 		{
 			
 			StringBuilder strSql=new StringBuilder();

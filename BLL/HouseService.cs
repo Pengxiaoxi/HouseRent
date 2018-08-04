@@ -164,6 +164,13 @@ namespace myhouse.BLL
             return dal.DeleteBySid(sid);
         }
 
+        //通过外键uid删除房屋信息
+        public bool DeleteByUid(int uid)
+        {
+
+            return dal.DeleteByUid(uid);
+        }
+
         // 获得前几行数据
         public List<myhouse.Model.House> GetModelListTop(int Top, string strWhere, string filedOrder)
         {

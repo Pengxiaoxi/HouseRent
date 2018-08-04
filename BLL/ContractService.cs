@@ -28,6 +28,11 @@ namespace myhouse.BLL
             return contractList;
         }
 
+        //通过外键uid删除数据
+        public bool DeleteByUid(int uid)
+        {
+            return dal.DeleteByUid(uid);
+        }
 
         /// <summary>
         /// 得到最大ID

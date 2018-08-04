@@ -129,7 +129,7 @@
             });
 
             if (idlist.length == 0) {
-                layer.alert('请先勾选需要删除的数据!', { icon: 5 });
+                layer.alert('请先选择需要删除的数据!', { icon: 5 });
                 return;
             }
 
@@ -200,7 +200,7 @@
             <legend>房屋信息管理</legend>
         </fieldset>
         <div style="text-align:left;height:30px; padding:0;" >        
-            <form class="layui-form" action="/MyAdmin/HouseList.aspx" method="post" style="height:30px;" id="d1">
+            <form class="layui-form" runat="server" style="height:30px;" id="d1">
                 <button class="layui-btn layui-btn-small layui-btn-danger" type="button" style="float:left;" onclick="deletelist()"><i class="layui-icon">&#xe640;</i>批量删除</button>&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="text" name="hname" id="hname" value="<%=hname %>" placeholder="请输入房屋名称" autocomplete="off" class="layui-input" style="height:30px;width:113px; margin-left:20px; float:left;" /> 
                 <div class="layui-inline" style="height:30px; width:140px;" >
@@ -321,22 +321,22 @@
                         </td>
                         <%
                             if (house.hmode == 1){%>
-                                <td>已出租</td>
+                                <td style="color:limegreen">已出租</td>
                             <%}
                             else {%>
-                                <td>未出租</td>
+                                <td style="color:orangered">未出租</td>
                             <%}
                         %>
 
                         <%
                             if (house.hstatus == 1){%>
-                                <td>已审核</td>
+                                <td style="color:limegreen">已审核</td>
                             <%}
                             else if(house.hstatus == 0) {%>
-                                <td>未审核</td>
+                                <td style="color:dodgerblue">未审核</td>
                             <%}
                             else if(house.hstatus == 2){%>
-                                <td>不合法</td>
+                                <td style="color:orangered">不合法</td>
                             <%}
                         %>
                         <td style="text-align:center; padding:0;">
@@ -357,7 +357,7 @@
             <%--弹出层，修改房屋信息--%>
         <div id="updatehouse" class="layui-elem-field layui-field-title" style="display:none;">
             <div class="layui-col-md10" style="padding-right:0px;">
-                <form class="layui-form layui-form-pane" id="fm" runat="server" enctype="multipart/form-data">
+                <form class="layui-form layui-form-pane" id="fm" action="/MyAdmin/HouseList.aspx" method="post" enctype="multipart/form-data">
                     <input type="hidden" id="hid" name="hid" value=""/>
                     <div class="layui-form-item">
                         <label class="layui-form-label">房屋名称</label>
@@ -369,7 +369,6 @@
                         <label class="layui-form-label">房屋板块</label>
                         <div class="layui-input-block">
                             <select name="section" id="section">
-                                <%--<option value="">请选择房屋板块</option>--%>
                                 <%
                                     foreach (myhouse.Model.Section section in sectionList)
                                     {%>

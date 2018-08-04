@@ -86,6 +86,47 @@
             });
         }
 
+        //用户信息的单个删除
+        function mydelete(uid) {
+            layer.confirm('您确定要删除此用户及其发布所有房屋的信息吗?', { icon: 3, title: '提示' }, function (index) {
+                $.post("/MyAdmin/UserInfo.aspx?flag=delete", { uid: uid }, function (result) {
+                    if (result) {
+                        layer.msg('有关此用户的所有信息删除成功!', { icon: 1 });
+                        setTimeout("location.reload(true)", 800);
+                    } else {
+                        layer.msg('删除失败...', { icon: 5 });
+                    }
+                }, "text");
+            });
+        }
+
+        //房屋信息批量删除
+        function deletelist() {
+            //获取勾选的check的值
+            var idlist = new Array();
+            $('input[name="check"]:checked').each(function () {
+                idlist.push($(this).val());//向数组中添加元素  
+            });
+
+            if (idlist.length == 0) {
+                layer.alert('请先选择需要删除的用户!', { icon: 5 });
+                return;
+            }
+            var ids = idlist.join(',');//将数组元素连接起来以构建一个字符串
+
+            layer.confirm('您确定要删除这' + idlist.length + '个用户及其发布的房屋的所有信息吗?', { icon: 3, title: '提示' }, function (index) {
+                $.post("/MyAdmin/UserInfo.aspx?flag=deletelist", { ids: ids }, function (result) {
+                    if (result) {
+                        layer.msg('删除成功!', { icon: 1 });
+                        setTimeout('window.location.reload(true)', 800);
+                    }
+                    else {
+                        layer.msg('删除失败...', { icon: 5 });
+                    }
+                }, "text");
+            });
+        }
+
         //关闭弹出层
         function myclose() {
             resetValue();
@@ -103,7 +144,6 @@
             $("#money").val("");
         }
 
-
         //图片预览
         $(function () {
             $("#simg1").uploadPreview({ Img: "imgPr1", Width: 220, Height: 200 });
@@ -116,7 +156,6 @@
                 layer.msg('结束时间必须大于起始时间!', { icon: 5 });
             }
         }
-
 
     </script>
 
@@ -176,6 +215,8 @@
 		        <th>注册时间</th>
 		        <th>邮箱</th>
 		        <th>联系电话</th>
+                <th>发布数</th>
+                <th>收藏数</th>
 		        <th>用户类型</th>
                 <th style="text-align:center;">操作</th>
             </tr>
@@ -185,7 +226,7 @@
                   foreach (myhouse.Model.User user in userList)
                   {%>
                     <tr>
-                        <td><input type="checkbox" name="check" value=""/></td>
+                        <td><input type="checkbox" name="check" value="<%=user.uid %>"/></td>
                         <td><%=user.uid %></td>
                         <td><%=user.unickname %></td>
                         <td><%=user.uname %></td>
@@ -196,26 +237,28 @@
                         <td><%=user.uregtime %></td>
                         <td><%=user.uemail %></td>
                         <td><%=user.utel %></td>
+                        <td><%=user.publishernumber %></td>
+                        <td><%=user.collectnumber %></td>
                         <%
                             if (user.utype == "0   ")
                             {
-                                Response.Write("<td>待审核</td>");
+                                Response.Write("<td style='color:green'>待审核</td>");
                             }
                             else if (user.utype == "1   ")
                             {
-                                Response.Write("<td>租赁者</td>");
+                                Response.Write("<td style='color:dodgerblue'>租赁者</td>");
                             }
                             else if (user.utype == "2   ")
                             {
-                                Response.Write("<td>房主</td>");
+                                Response.Write("<td style='color:orangered'>房主</td>");
                             }
                             else {
                                 Response.Write("<td>未知</td>");
                             }
                         %>
                         <td colspan="2" style="text-align:center;">
-                            <button class="layui-btn layui-btn-small layui-btn-normal" type="button" onclick="myupdate()">修改</button>
-                            <button class="layui-btn layui-btn-small layui-btn-danger" type="button" onclick="mydelete()">删除</button>
+                            <button class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" type="button" onclick="myupdate()">修改</button><br />
+                            <button class="layui-btn layui-btn-small layui-btn-danger" type="button" onclick="mydelete(<%=user.uid %>)">删除</button>
                         </td>
                     </tr>
                 <%}
@@ -228,7 +271,7 @@
 			</ul>
 		</div>
 
-     <%--弹出层，修改房屋信息--%>
+     <%--弹出层，修改用户信息--%>
         <div id="updatehouse" class="layui-elem-field layui-field-title" style="display:none;">
             <div class="layui-col-md10" style="padding-right:0px;">
                 <form class="layui-form layui-form-pane" id="fm" action="/MyAdmin/UserInfo.aspx" method="post" enctype="multipart/form-data">
