@@ -62,7 +62,7 @@
                     <dd><a href="/MyAdmin/AdminLoginout.ashx"><i class="layui-icon">&#x1006;</i>安全退出</a></dd>
                 </dl>
             </li>
-            <li>
+            <%--<li>
                 <form class="layui-form">
                     <div class="layui-form-item">
                         <label class="layui-form-label">开关-默认开</label>
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                  </form>
-            </li>
+            </li>--%>
         </ul>
 
     </div>

@@ -51,7 +51,7 @@
             $("hid").val(hid);
             $("#name").val(hname);
             //$("#section").val(sid);
-            $("input[name='section']").val(sid);
+            //$("input[name='section']").val(sid);
             $("#tid").val(htype);
             $("#size").val(hsize);
             $("#floor").val(hfloor);
@@ -69,6 +69,17 @@
             //alert(sid);
             //alert(htype);
             //alert(harea);
+
+            layer.open({
+                type: 1,
+                title: '发布公告信息',
+                area: ['800px', '500px'],
+                offset: '20px',
+                anim: 1,
+                skin: "myclass",
+                shade: 0.1,
+                content: $("#updatehouse")
+            });
 
             var form = document.getElementById('fm');
             var formData = new FormData(form);
@@ -91,17 +102,6 @@
                         layer.msg('房屋信息修改失败!', { icon: 5 })
                     }
                 }
-            });
-
-            layer.open({
-                type: 1,
-                title: '发布公告信息',
-                area: ['800px', '500px'],
-                offset: '10px',
-                anim: 1,
-                skin: "myclass",
-                shade: 0.1,
-                content: $("#updatehouse")
             });
         }
 
@@ -202,8 +202,8 @@
         <div style="text-align:left;height:30px; padding:0;" >        
             <form class="layui-form" action="/MyAdmin/HouseList.aspx" method="post" style="height:30px;" id="d1">
                 <button class="layui-btn layui-btn-small layui-btn-danger" type="button" style="float:left;" onclick="deletelist()"><i class="layui-icon">&#xe640;</i>批量删除</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="hname" id="hname" value="<%=hname %>" placeholder="请输入房屋名称..." autocomplete="off" class="layui-input" style="height:30px;width:130px; margin-left:20px; float:left;" /> 
-                <div class="layui-inline" style="height:30px; width:150px;" >
+                <input type="text" name="hname" id="hname" value="<%=hname %>" placeholder="请输入房屋名称" autocomplete="off" class="layui-input" style="height:30px;width:113px; margin-left:20px; float:left;" /> 
+                <div class="layui-inline" style="height:30px; width:140px;" >
                     <div class="layui-input-inline" >
                         <select name="sid">
                             <option value="">请选择房屋板块</option>
@@ -216,7 +216,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="layui-inline" style="height:30px; width:150px;">
+                <div class="layui-inline" style="height:30px; width:140px;">
                     <div class="layui-input-inline" >
                         <select name="htype">
                             <option value="">请选择房屋类型</option>
@@ -229,7 +229,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="layui-inline" style="height:30px; width:120px;">
+                <div class="layui-inline" style="height:30px; width:112px;">
                     <div class="layui-input-inline" >
                         <select name="harea">
                             <option value="">请选择地区</option>
@@ -242,7 +242,7 @@
                         </select>
                     </div>
                 </div>        
-                <div class="layui-inline" style="height:30px; width:150px;" >
+                <div class="layui-inline" style="height:30px; width:140px;" >
                     <div class="layui-input-inline" >
                         <select name="hmode">
                             <option value="">请选择是否出租</option>
@@ -251,7 +251,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="layui-inline" style="height:30px; width:150px;" >
+                <div class="layui-inline" style="height:30px; width:140px;" >
                     <div class="layui-input-inline" >
                         <select name="hstatus"  >
                             <option value="">请选择房屋状态</option>
@@ -272,7 +272,7 @@
                     </div>
                 </div>
                 <button id="search" type="submit" class="layui-btn layui-btn-small layui-btn-normal " ><i class="layui-icon">&#xe615;</i>查询</button>
-                <button type="button" class="layui-btn layui-btn-small layui-btn-normal" onclick="window.location='/MyAdmin/HouseList.aspx'"><i class="layui-icon">&#x1002;</i>刷新</button>
+                <%--<button type="button" class="layui-btn layui-btn-small layui-btn-normal" onclick="window.location='/MyAdmin/HouseList.aspx'"><i class="layui-icon">&#x1002;</i>刷新</button>--%>
             </form>     
         </div>
 
@@ -339,9 +339,8 @@
                                 <td>不合法</td>
                             <%}
                         %>
-
                         <td style="text-align:center; padding:0;">
-                            <button id="myupdate" class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" onclick="myupdate('<%=house.hid %>', '<%=house.hname %>', '<%=house.htype %>', '<%=house.sid %>', '<%=house.hsize %>', '<%=house.hfloor %>', '<%=house.hmoney %>', '<%=house.hcommunity %>', '<%=house.harea %>', '<%=house.hadress %>', '<%=house.hdescription %>', '<%=house.hphotoone %>', '<%=house.hphototwo %>', '<%=house.hphotothree %>', '<%=house.hphotofour %>', '<%=house.hmode %>', '<%=house.hstatus %>')">修改</button><br />
+                            <button id="myupdate" class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" onclick="myupdate(<%=house.hid %>, '<%=house.hname %>', <%=house.htype %>, <%=house.sid %>, '<%=house.hsize %>', '<%=house.hfloor %>', '<%=house.hmoney %>', '<%=house.hcommunity %>', <%=house.harea %>, '<%=house.hadress %>', '<%=house.hdescription %>', '<%=house.hphotoone %>', '<%=house.hphototwo %>', '<%=house.hphotothree %>', '<%=house.hphotofour %>', <%=house.hmode %>, <%=house.hstatus %>)">修改</button><br />
                             <button class="layui-btn layui-btn-small layui-btn-danger" onclick="mydelete(<%=house.hid %>)">删除</button>
                         </td>
                     </tr>
@@ -358,7 +357,7 @@
             <%--弹出层，修改房屋信息--%>
         <div id="updatehouse" class="layui-elem-field layui-field-title" style="display:none;">
             <div class="layui-col-md10" style="padding-right:0px;">
-                <form class="layui-form layui-form-pane" id="fm" runat="server">
+                <form class="layui-form layui-form-pane" id="fm" runat="server" enctype="multipart/form-data">
                     <input type="hidden" id="hid" name="hid" value=""/>
                     <div class="layui-form-item">
                         <label class="layui-form-label">房屋名称</label>

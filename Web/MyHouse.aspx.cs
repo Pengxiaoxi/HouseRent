@@ -104,12 +104,12 @@ namespace myhouse.Web
 
             if (houseService.Delete(hid))
             {
-                Response.Write("true");
+                Response.Write(true);
                 Response.End();
             }
             else
             {
-                Response.Write("false");
+                Response.Write(false);
                 Response.End();
             }
         }

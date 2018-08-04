@@ -9,16 +9,12 @@
     <script>
         //删除房屋信息
         function mydelete(hid) {
-            if (confirm("您确定要删除这条信息吗？")) {
-                //alert(hid);
-                
+            if (confirm("您确定要删除这条信息吗？")) {              
                 $.post("/MyHouse.aspx?flag=delete", { hid: hid },
-                    //setTimeout(   //延迟执行
                        function (result) {
-                           alert(result);
-                           if (result == "True") {
+                           if (result) {
                                alert("删除成功！");
-                               //window.location.reload(true);
+                               setTimeout("window.location.reload(true)", 500)
                            }
                            else {
                                alert("删除失败！");
@@ -44,7 +40,6 @@
         <% Server.Execute("/common/Top.aspx"); %>
     </div>
 
-    <form id="form1" runat="server">
     <div>
         <%--判断是否登录，是否为房主并显示不同的提示信息--%>
 
@@ -56,7 +51,7 @@
                 {%>
                 <table style="width: 100%;" align="center">
 						    <tr height="30" ><td style="text-indent:5;background-size:100%; border-radius:5px; " background="/images/index/3.jpg"   ><b><font color="white">❤我发布的房屋信息 |</font></b>&nbsp;&nbsp;
-                                <a class="housemenu" href="/MyHouse.aspx">已审核的房屋 </a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="housemenu" href="/MyHouse.aspx?flag=unreview">未审核的房屋</a> 
+                                <a class="housemenu" href="/MyHouse.aspx">已审核的房屋&nbsp;&nbsp;|</a>&nbsp;&nbsp;<a class="housemenu" href="/MyHouse.aspx?flag=unreview">未审核的房屋&nbsp;&nbsp;|</a> &nbsp;&nbsp;<a class="housemenu" href="/MyHouse.aspx?flag=unreview">审核未通过的房屋</a> 
                                 <input type="button" onclick="window.open('/HouseAdd.aspx')" value="发布新的房屋信息" class="newhouse" /></td>
 						    </tr>
 
@@ -84,8 +79,8 @@
 
                                                     <%--<input type="button" class="b1" " value="<%=house.hmode == 0 ? "未出租": "已出租" %>"/>--%>
 
-                                                    <button class="b2" onclick="mychange(<%=house.hid %>)" >修改</button>
-                                                    <button class="b3" onclick="mydelete(<%=house.hid %>)" >删除</button>
+                                                    <button class="b2" type="button" onclick="mychange(<%=house.hid %>)" >修改</button>
+                                                    <button class="b3" type="button" onclick="mydelete(<%=house.hid %>)" >删除</button>
 											    </div>
 										    </li>
                                         <% }%>
@@ -120,6 +115,5 @@
                 <%}  
              %>
     </div>
-    </form>
 </body>
 </html>

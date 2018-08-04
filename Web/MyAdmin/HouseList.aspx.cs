@@ -69,13 +69,13 @@ namespace myhouse.Web.MyAdmin
                 order = Request.Form["order"];
             }
             else{
-                hname = Request["hname"];
-                sid = Request["sid"];
-                htype = Request["htype"];
-                harea = Request["harea"];
-                hmode = Request["hmode"];
-                hstatus = Request["hstatus"];
-                order = Request["order"];
+                hname = Request.QueryString["hname"];
+                sid = Request.QueryString["sid"];
+                htype = Request.QueryString["htype"];
+                harea = Request.QueryString["harea"];
+                hmode = Request.QueryString["hmode"];
+                hstatus = Request.QueryString["hstatus"];
+                order = Request.QueryString["order"];
             }
 
             if (order == null || order == "0")

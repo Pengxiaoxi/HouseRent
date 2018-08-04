@@ -3,6 +3,10 @@ using System.Data;
 using System.Collections.Generic;
 using Maticsoft.Common;
 using myhouse.Model;
+using System.Collections;
+using System.Text;
+using Util;
+
 namespace myhouse.BLL
 {
 	/// <summary>
@@ -11,9 +15,98 @@ namespace myhouse.BLL
 	public partial class UserService
 	{
 		private readonly myhouse.DAL.UserDao dal=new myhouse.DAL.UserDao();
-		public UserService()
+
+        //每页大小
+        public int pagesize = 10;
+        public string orderby { get; set; }
+
+        public UserService()
 		{}
-		#region  BasicMethod
+        #region  BasicMethod
+
+        //后台用户信息列表条件分页查询+分页链接
+        public ArrayList FindUserByPageOnWhere(int page, string unickname, string utype, string starttime, string endtime, string order)
+        {
+            StringBuilder strWhere = new StringBuilder();
+            StringBuilder param = new StringBuilder();
+
+            //判断排序方式
+            if (order == null || order == "0")
+            {
+                orderby = "uregtime desc";
+            }
+            else if(order == "1")
+            {
+                orderby = "uregtime asc";
+            }
+
+            //查询条件拼接
+            strWhere.Append("uid >" +0);
+            if (unickname != null && !"".Equals(unickname))
+            {
+                strWhere.Append("and unickname like '%"+ unickname + "%'");
+            }
+            if (utype != null && !"".Equals(utype))
+            {
+                strWhere.Append("and utype=" +utype);
+            }
+            if (starttime != null && !"".Equals(starttime) && endtime != null && !"".Equals(endtime))
+            {
+                strWhere.Append("and uregtime between'" +starttime+ "'and'"+endtime+"'");
+            }
+
+            int record = this.GetRecordCount(strWhere.ToString());
+            int maxpage = 1;
+            if (record % pagesize == 0)
+            {
+                maxpage = record / pagesize;
+            }
+            else
+            {
+                maxpage = record / pagesize + 1;
+            }
+            if (page > maxpage)
+            {
+                page = maxpage;
+            }
+            //用户信息列表
+            DataSet ds = this.GetListByPage(strWhere.ToString(), orderby, (page - 1)*pagesize +1, page * pagesize);
+            List<User> userList = this.DataTableToList(ds.Tables[0]);
+
+            //分页条件拼接
+            if (order != null && !"".Equals(order))
+            {
+                param.Append("order="+order);
+            }
+            if (unickname != null && !"".Equals(unickname))
+            {
+                param.Append("&uname=" + unickname);
+            }
+            if (utype != null && !"".Equals(utype))
+            {
+                param.Append("&utype=" + utype);
+            }
+            if (starttime != null && !"".Equals(starttime))
+            {
+                param.Append("&starttime=" + starttime);
+            }
+            if (endtime != null && !"".Equals(endtime))
+            {
+                param.Append("&endtime=" + endtime);
+            }
+
+            string pageCode = PageUtil.genPagination("/MyAdmin/UserInfo.aspx", record, page, pagesize, param.ToString());
+
+            ArrayList list = new ArrayList();
+
+            list.Add(userList);  //0下标放用户信息列表
+            list.Add(pageCode);  //1下标放分页的链接
+            
+            return list;
+        }
+
+
+
 
 		/// <summary>
 		/// 得到最大ID

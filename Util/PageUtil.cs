@@ -15,7 +15,7 @@ namespace Util
             StringBuilder pageCode = new StringBuilder();
             if (totalPage == 0)
             {
-                return "满足当前条件的房屋暂时还没有，请重新选择条件...";
+                return "满足当前条件的暂时还没有，请重新选择条件...";
             }
             else
             {
