@@ -83,7 +83,7 @@ html,body{margin:0;
             type: "POST",
             url: "/MyAdmin/PersonalInfo.aspx",
             data: formData,
-            async: false,
+            async: true,
             cache: false,
             contentType: false,
             processData: false,

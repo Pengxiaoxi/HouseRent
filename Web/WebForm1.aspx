@@ -14,12 +14,32 @@
     .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
 </style>
 <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+<script type="text/javascript" src="/MyAdmin/js/jquery-1.11.1.js"></script>
+
+    <script type="text/javascript">
+        function change(sex)
+        {
+            alert(sex);
+            $("#sex").val(sex);
+        }
+        
+    </script>
+
 </head>
 
 <body>
   <!--百度地图容器-->
   <div style="width:600px;height:350px;border:#ccc solid 1px;" id="dituContent"></div>
+
+    <select style="width:auto;" name="sex" id="sex">
+          <option value="男">男</option>
+          <option value="女">女</option>
+    </select>
+    <input type="button" onclick="change('女')"/>
 </body>
+
+  
+
 <script type="text/javascript">
     //创建和初始化地图函数：
     function initMap(){

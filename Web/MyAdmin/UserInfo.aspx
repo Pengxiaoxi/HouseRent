@@ -14,12 +14,25 @@
          #d1 .layui-input, .layui-select{
             height:30px;
         }
+
+        .fileLabel{
+          display: inline-block;
+          width:80px;
+          height: 25px;
+          text-align: center;
+          border: 1px solid #8cc051;
+          border-radius: 5px;
+          background-color:dodgerblue;
+          cursor: pointer;
+          color:white;
+        }
+
     </style>
 
     <script src="/MyAdmin/frame/layui/layui.js"></script>
     <script src="/MyAdmin/js/jquery-1.11.1.js"></script>
-
-    <script src="/MyAdmin/My97DatePicker/WdatePicker.js"></script>   <%--时间选择器--%>
+    <script src="js/uploadPreview.min.js"></script>
+    <script src="/MyAdmin/My97DatePicker/WdatePicker.js"></script>
 
     <%--判断是否在框架（/MyAdmin/Default.aspx）中打开--%>
     <script>
@@ -41,19 +54,24 @@
         });
 
         //用户信息的修改
-        function myupdate(hid, hname, htype, sid, hsize, hfloor, hmoney) {
-            $("hid").val(hid);
-            $("#name").val(hname);
-            //$("#section").val(sid);
-            //$("input[name='section']").val(sid);
-            $("#tid").val(htype);
-            $("#size").val(hsize);
-            $("#floor").val(hfloor);
-            $("#money").val(hmoney);
+        function myupdate(uid, photo1, nickname, name, sex, regtime, email, tel, type) {
+            $("#uid").val(uid);
+            $("#imgPr1").attr("src", photo1);
+            $("#nickname").val(nickname);
+            $("#name").val(name);
+            $("#sex").val(sex);
+            $("#regtime").val(regtime);
+            $("#email").val(email);
+            $("#tel").val(tel);
+            $("#type").val(type);
+
+            //赋值后重新渲染
+            var form = layui.form;
+            form.render();  
 
             layer.open({
                 type: 1,
-                title: '发布公告信息',
+                title: '修改用户信息',
                 area: ['800px', '500px'],
                 offset: '20px',
                 anim: 1,
@@ -61,14 +79,17 @@
                 shade: 0.1,
                 content: $("#updatehouse")
             });
+        }
 
+        //用户信息的保存
+        function mysave() {
             var form = document.getElementById('fm');
             var formData = new FormData(form);
             //alert(formData);
 
             $.ajax({
                 type: "POST",
-                url: "/MyAdmin/HouseList.aspx?flag=update",
+                url: "/MyAdmin/UserInfo.aspx?flag=update",
                 data: formData,
                 async: false,
                 cache: false,
@@ -76,15 +97,15 @@
                 processData: false,
                 success: function (msg) {
                     if (msg) {
-                        layer.msg('该房屋信息修改成功!', { icon: 1 });
+                        layer.msg('该用户信息修改成功!', { icon: 1 });
                         setTimeout("window.location.reload(true)", 600);
                     }
                     else {
-                        layer.msg('房屋信息修改失败!', { icon: 5 })
+                        layer.msg('用户信息修改失败!', { icon: 5 })
                     }
                 }
             });
-        }
+        };
 
         //用户信息的单个删除
         function mydelete(uid) {
@@ -135,27 +156,37 @@
 
         //清空弹出层form表单中的内容
         function resetValue() {
+            $("#uid").val("");
+            $("#imgPr1").attr("src", "/Images/House/wu.jpg");
+            $("#nickname").val("");
             $("#name").val("");
-            var sid = $("#section").val();
-            alert(sid);
-            $("#tid").val("");
-            $("#size").val("");
-            $("#floor").val("");
-            $("#money").val("");
-        }
+            $("#sex").val("");
+            $("#regtime").val("");
+            $("#email").val("");
+            $("#tel").val("");
+            $("#type").val("");
+
+            //赋值后重新渲染
+            var form = layui.form;
+            form.render();
+        };
 
         //图片预览
         $(function () {
             $("#simg1").uploadPreview({ Img: "imgPr1", Width: 220, Height: 200 });
         });
 
-        function checktime()
-        {
-            if ($("#starttime").val() > $("#endtime").val())
-            {
+        //提醒选择时间时结束时间要大于起始时间
+        function checktime() {
+            if ($("#starttime").val() > $("#endtime").val()) {
                 layer.msg('结束时间必须大于起始时间!', { icon: 5 });
             }
-        }
+        };
+
+        //图片预览
+        $(function () {
+            $("#simg1").uploadPreview({ Img: "imgPr1", Width: 220, Height: 200 });
+        });
 
     </script>
 
@@ -257,7 +288,7 @@
                             }
                         %>
                         <td colspan="2" style="text-align:center;">
-                            <button class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" type="button" onclick="myupdate()">修改</button><br />
+                            <button class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" type="button" onclick="myupdate(<%=user.uid %>, '<%=user.uphoto %>', '<%=user.unickname %>', '<%=user.uname %>', '<%=user.usex %>', '<%=user.uregtime %>', '<%=user.uemail %>', '<%=user.utel %>', <%=user.utype %>)">修改</button><br />
                             <button class="layui-btn layui-btn-small layui-btn-danger" type="button" onclick="mydelete(<%=user.uid %>)">删除</button>
                         </td>
                     </tr>
@@ -275,101 +306,62 @@
         <div id="updatehouse" class="layui-elem-field layui-field-title" style="display:none;">
             <div class="layui-col-md10" style="padding-right:0px;">
                 <form class="layui-form layui-form-pane" id="fm" action="/MyAdmin/UserInfo.aspx" method="post" enctype="multipart/form-data">
-                    <input type="hidden" id="hid" name="hid" value=""/>
+                    <input type="hidden" id="uid" name="uid" value=""/>
+                    <div class="layui-form-item" >
+                        <div class="layui-input-block" style="text-align:center; margin-top:10px;" >
+                            <input type="file" name="photo1" id="simg1" style="display:none;"/>
+                            <img id="imgPr1" style="width: 80px; height: 80px; border-radius:50%; " src="/Images/face/lbxx.jpg" /><br /><br />
+                            <label class="fileLabel" for="simg1">修改头像</label>
+                        </div>
+                    </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">房屋名称</label>
+                        <label class="layui-form-label">昵称</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="nickname" name="nickname" autocomplete="off" placeholder="请输入昵称" class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">真实姓名</label>
                         <div class="layui-input-block">
                             <input type="text" id="name" name="name" autocomplete="off" placeholder="请输入房屋名称" class="layui-input"/>
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">房屋板块</label>
+                        <label class="layui-form-label">性别</label>
                         <div class="layui-input-block">
-                            <select name="section" id="section">
-                                <option value="">请选择房屋板块</option>
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">房屋类型</label>
-                        <div class="layui-input-block">
-                            <select style="width:auto;" name="tid" id="tid">
-                                <option value="">请选择房屋类型</option>
-                                
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">房屋面积</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="size" name="size" autocomplete="off" placeholder="请输入房屋面积" class="layui-input"/>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">房屋楼层</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="floor" name="floor" autocomplete="off" placeholder="请输入房屋楼层" class="layui-input"/>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">房屋租金</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="money" name="money" autocomplete="off" placeholder="请输入房屋租金" class="layui-input"/>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">所在小区</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="community" name="community" autocomplete="off" placeholder="请输入所在小区" class="layui-input"/>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">所在地区</label>
-                        <div class="layui-input-block">
-                            <select style="width:auto;" name="area" id="area">
-                                <option value="">请选择地区</option>
-                            
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">详细地址</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="adress" name="adress" autocomplete="off" placeholder="请输入详细地址" class="layui-input"/>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">房屋描述</label>
-                        <div class="layui-input-block">
-                            <textarea name="description" id="description" placeholder="请输入房屋描述" class="layui-input" style="height:120px;"></textarea>
-                        </div>
-                    </div>
-                    <div class="layui-form-item" >
-                        <div class="layui-input-block" style="float:left;" >
-                            <input type="file" name="photo1" id="simg1" style="display:none;"/>
-                            <img id="imgPr1" style="width: 80px; height: 80px; border-radius:10px; " src="/Images/House/wu.jpg" /><br /><br />
-                            <label class="fileLabel" for="simg1">图片一</label>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">是否审核</label>
-                        <div class="layui-input-block">
-                            <select style="width:auto;" name="status" id="status">
+                            <select style="width:auto;" name="sex" id="sex" >
                                 <option value="">请选择...</option>
-                                <option value="0">未审核</option>
-                                <option value="1">已审核</option>
-                                <option value="2">不合法</option>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
                             </select>
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">是否出租</label>
+                        <label class="layui-form-label">注册时间</label>
                         <div class="layui-input-block">
-                            <select style="width:auto;" name="mode" id="mode">
+                            <input type="text" id="regtime" name="regtime" autocomplete="off" placeholder="请输入房屋楼层" class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">邮箱</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="email" name="email" autocomplete="off" placeholder="请输入房屋租金" class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">联系电话</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="tel" name="tel" autocomplete="off" placeholder="请输入所在小区" class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户类型</label>
+                        <div class="layui-input-block">
+                            <select style="width:auto;" name="type" id="type">
                                 <option value="">请选择...</option>
-                                <option value="0">已出租</option>
-                                <option value="1">未出租</option>
+                                <option value="1">租赁者</option>
+                                <option value="2">房主</option>   
+                                <option value="0">待审核</option>
                             </select>
                         </div>
                     </div>

@@ -45,13 +45,13 @@
             var layer = layui.layer;
         });
 
-        //房屋信息的修改
+        //房屋信息修改弹出层
         function myupdate(hid,hname,htype,sid, hsize,hfloor,hmoney,hcommunity,harea,hadress,hdescription,photo1,photo2,photo3,photo4,hmode,hstatus)
         {
             $("hid").val(hid);
             $("#name").val(hname);
             //$("#section").val(sid);
-            //$("input[name='section']").val(sid);
+            $("select[name=section]").val("2");
             $("#tid").val(htype);
             $("#size").val(hsize);
             $("#floor").val(hfloor);
@@ -80,7 +80,11 @@
                 shade: 0.1,
                 content: $("#updatehouse")
             });
+        }
 
+        //房屋信息的保存
+        function mysave()
+        {
             var form = document.getElementById('fm');
             var formData = new FormData(form);
             //alert(formData);
@@ -210,7 +214,7 @@
                             <%
                                 foreach (myhouse.Model.Section section in sectionList)
                                 {%>
-                                    <option value="<%=section.sid %>" <%=sid == section.sid.ToString() ? "selected" : "" %> ><%=section.sname %></option>
+                                    <option value="<%=section.sid %>   " <%=sid == section.sid.ToString() ? "selected" : "" %> ><%=section.sname %></option>
                                 <%}
                             %>
                         </select>
@@ -294,7 +298,7 @@
                 <th>发布时间</th>
                 <th>图片</th>
                 <th>是否出租</th>
-                <th>是否审核</th>
+                <th>信息状态</th>
                 <th style="text-align:center;">操作</th>
             </tr>
             </thead>
@@ -369,12 +373,14 @@
                         <label class="layui-form-label">房屋板块</label>
                         <div class="layui-input-block">
                             <select name="section" id="section">
-                                <%
+                                <option value="1">普通住宅</option>
+                                <option value="2">公寓</option>
+                                <%--<%
                                     foreach (myhouse.Model.Section section in sectionList)
                                     {%>
-                                        <option value="<%=section.sid %>"><%=section.sname %></option>
+                                        <option value="<%=section.sid%>"><%=section.sname %></option>
                                     <%}
-                                %>
+                                %>--%>
                             </select>
                         </div>
                     </div>
@@ -487,7 +493,7 @@
                     </div>
                     <div class="layui-form-item" style="padding-left:110px;margin-top:40px;">
                         <input type="button" class="layui-btn layui-btn-danger" onclick="myclose()" value="取消" />
-                        <input type="button" style="float:right;" class="layui-btn layui-btn-normal" onclick="mypublish()" value="保存"/>
+                        <input type="button" style="float:right;" class="layui-btn layui-btn-normal" onclick="mysave()" value="保存"/>
                     </div>
                 </form>
             </div>
