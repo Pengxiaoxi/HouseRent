@@ -150,6 +150,34 @@
             });
         }
 
+        //通过审核
+        function myreview(uid)
+        {
+            layer.confirm('您确定要允许此用户通过审核吗?', { icon: 3, title: '提示' }, function (index) {
+                $.post("/MyAdmin/UserInfo.aspx?flag=review", { uid: uid }, function (result) {
+                    if (result) {
+                        layer.msg('审核成功!', { icon: 1 });
+                        setTimeout("location.reload(true)", 800);
+                    } else {
+                        layer.msg('审核失败...', { icon: 5 });
+                    }
+                }, "text");
+            });
+        }
+        //不通过审核
+        function mynoreview(uid) {
+            layer.confirm('您确定要不允许此用户通过审核吗?', { icon: 3, title: '提示' }, function (index) {
+                $.post("/MyAdmin/UserInfo.aspx?flag=review&param=no", { uid: uid }, function (result) {
+                    if (result) {
+                        layer.msg('此用户未通过审核!', { icon: 1 });
+                        setTimeout("location.reload(true)", 800);
+                    } else {
+                        layer.msg('审核失败...', { icon: 5 });
+                    }
+                }, "text");
+            });
+        }
+
         //关闭弹出层
         function myclose() {
             resetValue();
@@ -203,7 +231,17 @@
         </fieldset>
         <div style="text-align:left;height:30px; padding:0;" >        
             <form class="layui-form" runat="server" style="height:30px;" id="d1">
-                <button class="layui-btn layui-btn-small layui-btn-danger" type="button" style="float:left;" onclick="deletelist()"><i class="layui-icon">&#xe640;</i>批量删除</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <% 
+                    if (((myhouse.Model.Worker)Session["adminInfo"]).wtype == "8   " ||((myhouse.Model.Worker)Session["adminInfo"]).wtype == "2   ")
+                    {%>
+                        <button class="layui-btn layui-btn-small layui-btn-danger" type="button" style="float:left;" onclick="deletelist()"><i class="layui-icon">&#xe640;</i>批量删除</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <%}
+                    else
+                    {%>
+                        <button class="layui-btn layui-btn-small layui-btn-normal" type="button" style="float:left;">请选择条件进行查询</button>
+                    <%}
+                %>
+                
                 <input type="text" name="unickname" id="unickname" value="<%=unickname %>" placeholder="请输入用户昵称" autocomplete="off" class="layui-input" style="height:30px;width:155px; margin-left:20px; float:left;" /> 
                 <div class="layui-inline" style="height:30px; width:150px;" >
                     <div class="layui-input-inline" >
@@ -297,8 +335,35 @@
                             }
                         %>
                         <td colspan="2" style="text-align:center;">
-                            <button class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" type="button" onclick="myupdate(<%=user.uid %>, '<%=user.uphoto %>', '<%=user.unickname %>', '<%=user.uname %>', '<%=user.ucard %>',  '<%=user.usex %>', '<%=user.uregtime %>', '<%=user.uemail %>', '<%=user.uqq %>', '<%=user.utel %>', <%=user.utype %>)">修改</button><br />
-                            <button class="layui-btn layui-btn-small layui-btn-danger" type="button" onclick="mydelete(<%=user.uid %>)">删除</button>
+                            <%
+                                if (((myhouse.Model.Worker)Session["adminInfo"]).wtype == "0   ")
+                                {%>
+                                    <%if (user.utype =="0   ")
+                                        {%>
+                                        <button class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;width:68px;" onclick="myreview(<%=user.uid %>)">通过</button><br />
+                                        <button class="layui-btn layui-btn-small layui-btn-danger" style="width:68px;" onclick="mynoreview(<%=user.uid %>)">不通过</button>
+                                    <% }
+                                        else
+                                        {%>
+                                        <button class="layui-btn layui-btn-small layui-btn-disabled" style="width:68px;">禁用</button>
+                                        <%}
+                                      %>         
+                                <%}
+                                else if(((myhouse.Model.Worker)Session["adminInfo"]).wtype == "1   ")
+                                {%>
+                                    <button class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" type="button" onclick="myupdate(<%=user.uid %>, '<%=user.uphoto %>', '<%=user.unickname %>', '<%=user.uname %>', '<%=user.ucard %>',  '<%=user.usex %>', '<%=user.uregtime %>', '<%=user.uemail %>', '<%=user.uqq %>', '<%=user.utel %>', <%=user.utype %>)">修改</button><br />
+                                <%}
+                                else if(((myhouse.Model.Worker)Session["adminInfo"]).wtype == "2   " || ((myhouse.Model.Worker)Session["adminInfo"]).wtype == "8   ")
+                                {%>
+                                    <button class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" type="button" onclick="myupdate(<%=user.uid %>, '<%=user.uphoto %>', '<%=user.unickname %>', '<%=user.uname %>', '<%=user.ucard %>',  '<%=user.usex %>', '<%=user.uregtime %>', '<%=user.uemail %>', '<%=user.uqq %>', '<%=user.utel %>', <%=user.utype %>)">修改</button><br />
+                                    <button class="layui-btn layui-btn-small layui-btn-danger" type="button" onclick="mydelete(<%=user.uid %>)">删除</button>
+                                <%}
+                                else
+                                {%>
+                                    <button class="layui-btn layui-btn-small layui-btn-disabled">禁用</button>
+                                <%}
+                            %>
+
                         </td>
                     </tr>
                 <%}

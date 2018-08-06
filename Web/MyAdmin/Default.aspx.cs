@@ -20,19 +20,19 @@ namespace myhouse.Web.MyAdmin
             {
                 Response.Redirect("/MyAdmin/AdminLogin.aspx");
             }
-            else if (((Worker)Session["adminInfo"]).wtype == "0   ")
-            {
-                MenusService menuService = new MenusService();
-
-                //员工菜单列表
-                menuList = menuService.GetModelList("mstatus=" +0);
-            }
             else if (((Worker)Session["adminInfo"]).wtype == "8   ")
             {
                 MenusService menuService = new MenusService();
 
                 //管理员菜单列表
-                menuList = menuService.GetModelList("mstatus=" + 8);
+                menuList = menuService.GetModelList("mstatus=" +8);
+            }
+            else
+            {
+                MenusService menuService = new MenusService();
+
+                //员工菜单列表
+                menuList = menuService.GetModelList("mstatus=" + 0);
             }
         }
     }

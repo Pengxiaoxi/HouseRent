@@ -42,17 +42,21 @@ namespace myhouse.Web.MyAdmin
 
             string flag = Request["flag"];
 
-            if (flag == null || "".Equals(flag)) {
+            if (flag == null || "".Equals(flag))
+            {
                 this.showhouse();
             }
-            else if (flag == "update") {
+            else if (flag == "update")
+            {
                 this.updatehouse();
             }
-            else if (flag == "delete") {
+            else if (flag == "delete")
+            {
                 this.deletehouse();
             }
-            else if (flag == "deletelist") {
-                this.deletelist();
+            else if (flag == "review")
+            {
+                this.reviewhouse();
             }
         }
 
@@ -81,11 +85,6 @@ namespace myhouse.Web.MyAdmin
                 hmode = Request.QueryString["hmode"];
                 hstatus = Request.QueryString["hstatus"];
                 order = Request.QueryString["order"];
-            }
-
-            if (order == null || order == "0")
-            {
-                order = 0.ToString();
             }
 
             int page = 1;
@@ -157,50 +156,70 @@ namespace myhouse.Web.MyAdmin
             house.hphotofour = photo[3];
 
             //更新（包括外键sid）
-            if (houseService.UpdateAll(house))
-            {
+            if (houseService.UpdateAll(house)){
                 Response.Write(true);
                 Response.End();
             }
-            else
-            {
+            else{
                 Response.Write(true);
                 Response.End();
             }
-
         }
 
-        //单个删除房屋信息
+        //删除房屋信息(单个与批量删除)
         protected void deletehouse()
         {
-            int hid = Int32.Parse(Request["hid"]);
-            if (houseService.Delete(hid))
-            {
-                Response.Write(true);
-                Response.End();
-            }
-            else
-            {
-                Response.Write(true);
-                Response.End();
-            }
-        }
-
-        //批量删除房屋信息
-        protected void deletelist()
-        {
             string ids = Request["ids"];
-            if (houseService.DeleteList(ids))
+            if (ids == null || "".Equals(ids))
             {
-                Response.Write(true);
-                Response.End();
+                int hid = Int32.Parse(Request["hid"]);
+                if (houseService.Delete(hid)){
+                    Response.Write(true);
+                    Response.End();
+                }
+                else{
+                    Response.Write(true);
+                    Response.End();
+                }
             }
             else
             {
+                if (houseService.DeleteList(ids)){
+                    Response.Write(true);
+                    Response.End();
+                }
+                else{
+                    Response.Write(true);
+                    Response.End();
+                }
+            }     
+        }
+
+        //员工审核房屋信息//通过参数param判断是允许通过还是不允许
+        protected void reviewhouse()
+        {          
+            int hid = Int32.Parse(Request["hid"]);
+            string param = Request["param"];
+
+            House house = houseService.GetModel(hid);
+            if (param == null || "".Equals(param)){
+                house.hstatus = 1;
+            }
+            else if (param == "no"){
+                house.hstatus = 2;
+            }
+            else{
+                this.showhouse();
+            }
+
+            if (houseService.Update(house)){
+                Response.Write(true);
+                Response.End();
+            }
+            else{
                 Response.Write(true);
                 Response.End();
             }
         }
-
     }
 }

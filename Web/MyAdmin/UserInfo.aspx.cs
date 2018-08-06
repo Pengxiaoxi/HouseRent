@@ -30,6 +30,11 @@ namespace myhouse.Web.MyAdmin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["adminInfo"] == null)
+            {
+                Response.Redirect("/MyAdmin/AdminLogin.aspx");
+            }
+
             string flag = Request["flag"];
 
             if (flag == "update")
@@ -43,6 +48,10 @@ namespace myhouse.Web.MyAdmin
             else if (flag == "deletelist")
             {
                 this.deletelist();
+            }
+            else if (flag == "review")
+            {
+                this.reviewuser();
             }
             else
             {
@@ -60,14 +69,16 @@ namespace myhouse.Web.MyAdmin
                 page = 1;
             }
 
-            if (IsPostBack){
+            if (IsPostBack)
+            {
                 unickname = Request.Form["unickname"];
                 utype = Request.Form["utype"];
                 starttime = Request.Form["starttime"];
                 endtime = Request.Form["endtime"];
                 order = Request.Form["order"];
             }
-            else {
+            else
+            {
                 unickname = Request.QueryString["unickname"];
                 utype = Request.QueryString["utype"];
                 starttime = Request.QueryString["starttime"];
@@ -86,7 +97,7 @@ namespace myhouse.Web.MyAdmin
                 user.collectnumber = contractService.GetRecordCount("uid=" + user.uid);
             }
 
-            
+
         }
         //修改后更新用户信息
         protected void updateuser()
@@ -120,7 +131,6 @@ namespace myhouse.Web.MyAdmin
                     file.SaveAs(fileSavePath);     //将文件保存
                 }
             }
-
             user.uphoto = photo;
             user.unickname = Request["nickname"];
             user.uname = Request["name"];
@@ -152,16 +162,18 @@ namespace myhouse.Web.MyAdmin
                 contractService.DeleteByUid(uid);
                 houseService.DeleteByUid(uid);
 
-                if (userService.Delete(uid)){
+                if (userService.Delete(uid))
+                {
                     Response.Write(true);
                     Response.End();
                 }
-                else{
+                else
+                {
                     Response.Write(false);
                     Response.End();
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Response.Write(false);
                 Response.End();
@@ -190,10 +202,39 @@ namespace myhouse.Web.MyAdmin
                         Response.Write(false);
                         Response.End();
                     }
-                }   
+                }
             }
             catch (Exception)
             {
+                Response.Write(false);
+                Response.End();
+            }
+        }
+
+        //员工审核用户(通过参数param判断是通过还是不通过, 不通过则为租赁者1)
+        protected void reviewuser()
+        {
+            string param = Request["param"];
+
+            int uid = Int32.Parse(Request["uid"]);
+            User user = new User();
+            user = userService.GetModel(uid);
+
+            if (param == null || "".Equals(param)){
+                user.utype = 2.ToString();
+            }
+            else if (param == "no"){
+                user.utype = 1.ToString();
+            }
+            else{
+                this.showuser();
+            }
+
+            if (userService.Update(user)){
+                Response.Write(true);
+                Response.End();
+            }
+            else{
                 Response.Write(false);
                 Response.End();
             }

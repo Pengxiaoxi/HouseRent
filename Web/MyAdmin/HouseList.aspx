@@ -149,7 +149,7 @@
             var ids = idlist.join(',');//将数组元素连接起来以构建一个字符串
 
             layer.confirm('您确定要删除这' + idlist.length + '个房屋信息吗?', { icon: 3, title: '提示' }, function (index) {
-                $.post("/MyAdmin/HouseList.aspx?flag=deletelist", { ids: ids }, function (result) {
+                $.post("/MyAdmin/HouseList.aspx?flag=delete", { ids: ids }, function (result) {
                     if (result) {
                         layer.msg('删除成功!', { icon: 1 });
                         setTimeout('window.location.reload(true)', 800);
@@ -161,6 +161,34 @@
             });
         }
 
+        //员工审核单个信息
+        function myreview(hid)
+        {
+            layer.confirm('您确定要允许此条信息通过审核吗?', { icon: 3, title: '提示' }, function (index) {
+                $.post("/MyAdmin/HouseList.aspx?flag=review", { hid: hid }, function (result) {
+                    if (result) {
+                        layer.msg('审核通过!', { icon: 1 });
+                        setTimeout("location.reload(true)", 800);
+                    } else {
+                        layer.msg('审核失败...', { icon: 5 });
+                    }
+                }, "text");
+            });
+        }
+        //不允通过审核
+        function mynoreview(hid) {
+            layer.confirm('您确定要不允许此条信息通过审核吗?', { icon: 3, title: '提示' }, function (index) {
+                $.post("/MyAdmin/HouseList.aspx?flag=review&param=no", { hid: hid }, function (result) {
+                    if (result) {
+                        layer.msg('此房屋未通过审核!', { icon: 1 });
+                        setTimeout("location.reload(true)", 800);
+                    } else {
+                        layer.msg('审核失败...', { icon: 5 });
+                    }
+                }, "text");
+            });
+        }
+        
         //关闭弹出层
         function myclose() {
             resetValue();
@@ -170,13 +198,12 @@
         //清空弹出层form表单中的内容
         function resetValue() {
             $("#name").val("");
-            $("#sid").val("");
+            $("#section").val("");
             $("#tid").val("");
             $("#size").val("");
             $("#floor").val("");
             $("#money").val("");
             $("#community").val("");
-            $('select').empty();
             $("#area").val("");
             $("#adress").val("");
             $("#description").val("");
@@ -199,7 +226,6 @@
             $("#simg4").uploadPreview({ Img: "imgPr4", Width: 220, Height: 200 });
 
         });
-
     </script>
 
 </head>
@@ -210,8 +236,18 @@
         </fieldset>
         <div style="text-align:left;height:30px; padding:0;" >        
             <form class="layui-form" runat="server" style="height:30px;" id="d1">
-                <button class="layui-btn layui-btn-small layui-btn-danger" type="button" style="float:left;" onclick="deletelist()"><i class="layui-icon">&#xe640;</i>批量删除</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="hname" id="hname" value="<%=hname %>" placeholder="请输入房屋名称" autocomplete="off" class="layui-input" style="height:30px;width:113px; margin-left:20px; float:left;" /> 
+                <% 
+                    if (((myhouse.Model.Worker)Session["adminInfo"]).wtype == "8   " ||((myhouse.Model.Worker)Session["adminInfo"]).wtype == "2   ")
+                    {%>
+                        <button class="layui-btn layui-btn-small layui-btn-danger" type="button" style="float:left;" onclick="deletelist()"><i class="layui-icon">&#xe640;</i>批量删除</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <%}
+                    else
+                    {%>
+                        <button class="layui-btn layui-btn-small layui-btn-normal" type="button" style="float:left;">请选择条件进行查询</button>
+                    <%}
+                %>
+                
+                <input type="text" name="hname" id="hname" value="<%=hname %>" placeholder="请输入房屋名称" autocomplete="off" class="layui-input" style="height:30px;width:113px; margin-left:20px;margin-right:10px; float:left;" /> 
                 <div class="layui-inline" style="height:30px; width:140px;" >
                     <div class="layui-input-inline" >
                         <select name="sid">
@@ -349,14 +385,24 @@
                                 <td style="color:orangered">不合法</td>
                             <%}
                         %>
+
                         <td style="text-align:center; padding:0;">
                             <%
                                 if (((myhouse.Model.Worker)Session["adminInfo"]).wtype == "0   ")
                                 {%>
-                                    <button class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;width:68px;" onclick="mydelete(<%=house.hid %>)">审核通过</button><br />
-                                    <button class="layui-btn layui-btn-small layui-btn-danger" style="width:68px;" onclick="mydelete(<%=house.hid %>)">不通过</button>
+                                    <%if (house.hstatus == 0)
+                                        {%>
+                                        <button class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;width:68px;" onclick="myreview(<%=house.hid %>)">通过</button><br />
+                                        <button class="layui-btn layui-btn-small layui-btn-danger" style="width:68px;" onclick="mynoreview(<%=house.hid %>)">不通过</button>
+                                    <% }
+                                        else
+                                        {%>
+                                        <button class="layui-btn layui-btn-small layui-btn-disabled" style="width:68px;">禁用</button>
+                                        <%}
+                                      %>
+                                    
                                 <%}
-                                else if(((myhouse.Model.Worker)Session["adminInfo"]).wtype == "1  ")
+                                else if(((myhouse.Model.Worker)Session["adminInfo"]).wtype == "1   ")
                                 {%>
                                     <button id="" class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" onclick="myupdate(<%=house.hid %>, '<%=house.hname %>', <%=house.htype %>, <%=house.sid %>, '<%=house.hsize %>', '<%=house.hfloor %>', '<%=house.hmoney %>', '<%=house.hcommunity %>', <%=house.harea %>, '<%=house.hadress %>', '<%=house.hdescription %>', '<%=house.hphotoone %>', '<%=house.hphototwo %>', '<%=house.hphotothree %>', '<%=house.hphotofour %>', <%=house.hmode %>, <%=house.hstatus %>)">修改</button><br />
                                 <%}

@@ -41,16 +41,17 @@
             <li class="layui-nav-item">
                 <a href="/MyAdmin/PersonalInfo.aspx?wid=" target="iframe" class="name"><img src="<%=((myhouse.Model.Worker)Session["adminInfo"]).wphoto %>" style="border-radius:50%;" alt="logo">&nbsp;
                     <% 
-                        if (((myhouse.Model.Worker)Session["adminInfo"]).wtype == "0   " )
+                        if (((myhouse.Model.Worker)Session["adminInfo"]).wtype == "8   " )
                         {%>
-                            <font style="color:limegreen;">【员工】
+                            <font style="color:orangered;">【管理员】
                                 &nbsp;
                                 <%=((myhouse.Model.Worker)Session["adminInfo"]).wname %>
                             </font>
                         <%}
                         else
                         {%>
-                            <font style="color:orangered;">【管理员】
+                            
+                            <font style="color:limegreen;">【员工】
                                 &nbsp;
                                 <%=((myhouse.Model.Worker)Session["adminInfo"]).wname %>
                             </font>
