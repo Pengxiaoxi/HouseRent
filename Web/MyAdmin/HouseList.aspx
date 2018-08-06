@@ -54,9 +54,10 @@
         //房屋信息修改弹出层
         function myupdate(hid,hname,htype,sid, hsize,hfloor,hmoney,hcommunity,harea,hadress,hdescription,photo1,photo2,photo3,photo4,hmode,hstatus)
         {
-            $("hid").val(hid);
+            //alert(hid);
+            $("#hid").val(hid);
             $("#name").val(hname);
-            $("#sid").val(sid);
+            $("#section").val(sid);
             $("#tid").val(htype);
             $("#size").val(hsize);
             $("#floor").val(hfloor);
@@ -71,6 +72,10 @@
             $("#imgPr4").attr("src", photo4);
             $("#status").val(hstatus);
             $("#mode").val(hmode);
+            $("#housephoto1").val(photo1);
+            $("#housephoto2").val(photo2);
+            $("#housephoto3").val(photo3);
+            $("#housephoto4").val(photo4);
 
             var form = layui.form;
             form.render();   //表单重新渲染
@@ -92,7 +97,6 @@
         {
             var form = document.getElementById('fm');
             var formData = new FormData(form);
-            //alert(formData);
 
             $.ajax({
                 type: "POST",
@@ -332,7 +336,6 @@
                                 <td style="color:orangered">未出租</td>
                             <%}
                         %>
-
                         <%
                             if (house.hstatus == 1){%>
                                 <td style="color:limegreen">已审核</td>
@@ -363,7 +366,9 @@
         <div id="updatehouse" class="layui-elem-field layui-field-title" style="display:none;">
             <div class="layui-col-md10" style="padding-right:0px;">
                 <form class="layui-form layui-form-pane" id="fm" action="/MyAdmin/HouseList.aspx" method="post" enctype="multipart/form-data">
+
                     <input type="hidden" id="hid" name="hid" value=""/>
+
                     <div class="layui-form-item">
                         <label class="layui-form-label">房屋名称</label>
                         <div class="layui-input-block">
@@ -469,6 +474,11 @@
                             <label class="fileLabel" for="simg4">图片四</label>
                         </div>
                     </div>
+                    <input type="hidden" id="housephoto1" name="housephoto1" value="" />
+                    <input type="hidden" id="housephoto2" name="housephoto2" value=""/>
+                    <input type="hidden" id="housephoto3" name="housephoto3" value=""/>
+                    <input type="hidden" id="housephoto4" name="housephoto4" value=""/>
+
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否审核</label>
                         <div class="layui-input-block">

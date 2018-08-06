@@ -305,7 +305,7 @@
                 %>
             </tbody>
         </table>
-        <div class="pagination alternate" style="text-align:center;">
+        <div class="pagination alternate" style="text-align:center;margin-top:10px;">
 			<ul class="clearfix">
                  <%=pageCode %>
 			</ul>
@@ -390,6 +390,7 @@
                                 <option value="1">租赁者</option>
                                 <option value="2">房主</option>   
                                 <option value="0">待审核</option>
+                                <%--管理员直接修改类别--%>
                             </select>
                         </div>
                     </div>

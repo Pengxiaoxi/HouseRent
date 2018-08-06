@@ -3,7 +3,7 @@ using myhouse.Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.IO;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -58,7 +58,7 @@ namespace myhouse.Web.MyAdmin
             hyList = hyService.GetModelList("");
             areaList = areaService.GetModelList("");
 
-            //分页参数分开获取post提交与get提交
+            //分页参数分开获取post提交的查询条件与get提交分页参数
             if (IsPostBack){
                 hname = Request.Form["hname"];
                 sid = Request.Form["sid"];
@@ -107,6 +107,70 @@ namespace myhouse.Web.MyAdmin
         //更新房屋信息
         protected void updatehouse()
         {
+            int hid = Int32.Parse(Request["hid"]);
+
+            //try
+            //{
+            //    hid = Int32.Parse(Request["hid"]);
+            //}
+            //catch (Exception){
+            //    Response.Write(false);
+            //    Response.End();
+            //    return;
+            //}
+
+            House house = houseService.GetModel(hid);
+
+            HttpFileCollection files = HttpContext.Current.Request.Files;  //多文件上传
+
+            //数组存放原来的房屋图片信息
+            string[] photo = {Request["housephoto1"], Request["housephoto2"], Request["housephoto3"], Request["housephoto4"] };
+
+            for (int i = 0; i < files.Count; i++)
+            {
+                if (files[i] != null && !"".Equals(files[i]))
+                {
+                    string fileName = files[i].FileName;   //得到上传的文件的名字
+                    string ext = Path.GetExtension(fileName);  //得到其扩展名
+
+                    if (ext == ".jpg" || ext == ".gif" || ext == ".png" || ext == ".jpeg" || ext == ".JPG" || ext == ".bmp")  //设定文件的类型
+                    {
+                        string newFileNames = Guid.NewGuid().ToString() + ext;   //新文件名（防止重复名字）
+                        string fileSavePath = Request.MapPath("/HousePhoto/" + newFileNames);
+                        photo[i] = "/HousePhoto/" + newFileNames;   //将新的房屋图片存放在photo[]中
+
+                        files[i].SaveAs(fileSavePath);    //保存
+                    }
+                }
+            }
+            house.hname = Request["name"];
+            house.sid = Int32.Parse(Request["section"]);
+            house.htype = Int32.Parse(Request["tid"]);
+            house.hsize = Request["size"];
+            house.hfloor = Request["floor"];
+            house.hmoney = Request["money"];
+            house.hcommunity = Request["community"];
+            house.harea = Int32.Parse(Request["area"]);
+            house.hadress = Request["adress"];
+            house.hdescription = Request["description"];
+            house.hstatus = Int32.Parse(Request["status"]);
+            house.hmode = Int32.Parse(Request["mode"]);
+            house.hphotoone = photo[0];
+            house.hphototwo = photo[1];
+            house.hphotothree = photo[2];
+            house.hphotofour = photo[3];
+
+            //更新（包括外键sid）
+            if (houseService.UpdateAll(house))
+            {
+                Response.Write(true);
+                Response.End();
+            }
+            else
+            {
+                Response.Write(true);
+                Response.End();
+            }
 
         }
 

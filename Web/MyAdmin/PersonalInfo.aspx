@@ -104,23 +104,9 @@ html,body{margin:0;
 </head>
 <body class="body">
 
-    <%--<%
-        if (Session["adminInfo"] == null)
-        {%>
-            <script>
-                layer.alert('登录过期！请重新登录...', { icon: 1 });
-                setTimeout("window.location.href = '/MyAdmin/AdminLogin.aspx'", 800);
-            </script>
-        <%}
-        else
-        {%>
-            
-        <%}
-    %>--%>
-
 <form class="layui-form layui-form-pane" id="fm" runat="server" enctype="multipart/form-data">
      <div class="layui-form-item">
-        <div class="layui-input-block" style="left:36%;">
+        <div class="layui-input-block" style="width:200px; margin-left:46%;">
             <input type="file" name="photo" id="simg" style="display:none;"/>
             <img id="imgPr" style="width: 80px; height: 80px; border-radius:50%; " src="<%=((myhouse.Model.Worker)Session["adminInfo"]).wphoto %>" /><br /><br />
             <label class="fileLabel" for="simg">选择头像</label>
