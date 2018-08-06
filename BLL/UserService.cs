@@ -17,7 +17,7 @@ namespace myhouse.BLL
 		private readonly myhouse.DAL.UserDao dal=new myhouse.DAL.UserDao();
 
         //每页大小
-        public int pagesize = 10;
+        public int pagesize = 8;
         public string orderby { get; set; }
 
         public UserService()

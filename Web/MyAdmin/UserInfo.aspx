@@ -54,14 +54,16 @@
         });
 
         //用户信息的修改
-        function myupdate(uid, photo1, nickname, name, sex, regtime, email, tel, type) {
+        function myupdate(uid, photo1, nickname, name, card, sex, regtime, email, qq, tel, type) {
             $("#uid").val(uid);
             $("#imgPr1").attr("src", photo1);
             $("#nickname").val(nickname);
             $("#name").val(name);
+            $("#card").val(card);
             $("#sex").val(sex);
             $("#regtime").val(regtime);
             $("#email").val(email);
+            $("#qq").val(qq);
             $("#tel").val(tel);
             $("#type").val(type);
 
@@ -160,10 +162,13 @@
             $("#imgPr1").attr("src", "/Images/House/wu.jpg");
             $("#nickname").val("");
             $("#name").val("");
+            $("#card").val("");
             $("#sex").val("");
             $("#regtime").val("");
             $("#email").val("");
+            $("#qq").val("");
             $("#tel").val("");
+            $("#pass").val("");
             $("#type").val("");
 
             //赋值后重新渲染
@@ -238,17 +243,19 @@
             <thead>
             <tr>
                 <th></th>
-                <th>ID</th>
+                <%--<th>ID</th>--%>
                 <th>昵称</th>
-		        <th>真实姓名</th>
+		        <th>姓名</th>
+                <th>身份证号</th>
 		        <th>性别</th>
 		        <th>头像</th>
 		        <th>注册时间</th>
+                <th>QQ</th>
 		        <th>邮箱</th>
-		        <th>联系电话</th>
+		        <th>电话</th>
                 <th>发布数</th>
                 <th>收藏数</th>
-		        <th>用户类型</th>
+		        <th>类型</th>
                 <th style="text-align:center;">操作</th>
             </tr>
             </thead>
@@ -258,14 +265,16 @@
                   {%>
                     <tr>
                         <td><input type="checkbox" name="check" value="<%=user.uid %>"/></td>
-                        <td><%=user.uid %></td>
+                        <%--<td><%=user.uid %></td>--%>
                         <td><%=user.unickname %></td>
                         <td><%=user.uname %></td>
+                        <td><%=user.ucard %></td>
                         <td><%=user.usex %></td>
                         <td style="padding:4px; text-align:center;">
                             <img alt="" src="<%=user.uphoto %>" style="width: 60px; height: 60px; border-radius:250px;"/>
                         </td>
                         <td><%=user.uregtime %></td>
+                        <td><%=user.uqq %></td>
                         <td><%=user.uemail %></td>
                         <td><%=user.utel %></td>
                         <td><%=user.publishernumber %></td>
@@ -288,7 +297,7 @@
                             }
                         %>
                         <td colspan="2" style="text-align:center;">
-                            <button class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" type="button" onclick="myupdate(<%=user.uid %>, '<%=user.uphoto %>', '<%=user.unickname %>', '<%=user.uname %>', '<%=user.usex %>', '<%=user.uregtime %>', '<%=user.uemail %>', '<%=user.utel %>', <%=user.utype %>)">修改</button><br />
+                            <button class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" type="button" onclick="myupdate(<%=user.uid %>, '<%=user.uphoto %>', '<%=user.unickname %>', '<%=user.uname %>', '<%=user.ucard %>',  '<%=user.usex %>', '<%=user.uregtime %>', '<%=user.uemail %>', '<%=user.uqq %>', '<%=user.utel %>', <%=user.utype %>)">修改</button><br />
                             <button class="layui-btn layui-btn-small layui-btn-danger" type="button" onclick="mydelete(<%=user.uid %>)">删除</button>
                         </td>
                     </tr>
@@ -307,6 +316,7 @@
             <div class="layui-col-md10" style="padding-right:0px;">
                 <form class="layui-form layui-form-pane" id="fm" action="/MyAdmin/UserInfo.aspx" method="post" enctype="multipart/form-data">
                     <input type="hidden" id="uid" name="uid" value=""/>
+
                     <div class="layui-form-item" >
                         <div class="layui-input-block" style="text-align:center; margin-top:10px;" >
                             <input type="file" name="photo1" id="simg1" style="display:none;"/>
@@ -323,7 +333,13 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">真实姓名</label>
                         <div class="layui-input-block">
-                            <input type="text" id="name" name="name" autocomplete="off" placeholder="请输入房屋名称" class="layui-input"/>
+                            <input type="text" id="name" name="name" autocomplete="off" placeholder="请输入真实姓名" class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">身份证号</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="card" name="card" autocomplete="off" placeholder="请输入身份证号" class="layui-input"/>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -339,19 +355,31 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">注册时间</label>
                         <div class="layui-input-block">
-                            <input type="text" id="regtime" name="regtime" autocomplete="off" placeholder="请输入房屋楼层" class="layui-input"/>
+                            <input type="text" id="regtime" name="regtime" disabled="disabled" autocomplete="off" placeholder="" class="layui-input"/>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">邮箱</label>
                         <div class="layui-input-block">
-                            <input type="text" id="email" name="email" autocomplete="off" placeholder="请输入房屋租金" class="layui-input"/>
+                            <input type="text" id="email" name="email" autocomplete="off" placeholder="请输入邮箱" class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">联系QQ</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="qq" name="qq" autocomplete="off" placeholder="请输入联系QQ<" class="layui-input"/>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">联系电话</label>
                         <div class="layui-input-block">
-                            <input type="text" id="tel" name="tel" autocomplete="off" placeholder="请输入所在小区" class="layui-input"/>
+                            <input type="text" id="tel" name="tel" autocomplete="off" placeholder="请输入联系方式" class="layui-input"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">设置新密码</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="pass" name="pass" autocomplete="off" placeholder="请输入新密码（不修改则不需要输入）" class="layui-input"/>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -367,7 +395,7 @@
                     </div>
                     <div class="layui-form-item" style="padding-left:110px;margin-top:40px;">
                         <input type="button" class="layui-btn layui-btn-danger" onclick="myclose()" value="取消" />
-                        <input type="button" style="float:right;" class="layui-btn layui-btn-normal" onclick="mypublish()" value="保存"/>
+                        <input type="button" style="float:right;" class="layui-btn layui-btn-normal" onclick="mysave()" value="保存"/>
                     </div>
                 </form>
             </div>

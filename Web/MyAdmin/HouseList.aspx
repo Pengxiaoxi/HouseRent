@@ -45,13 +45,18 @@
             var layer = layui.layer;
         });
 
+        //layui中下拉框不显示，需要声明该表单
+        layui.use('form', function () {
+            var form = layui.form;
+            form.render();
+        });
+
         //房屋信息修改弹出层
         function myupdate(hid,hname,htype,sid, hsize,hfloor,hmoney,hcommunity,harea,hadress,hdescription,photo1,photo2,photo3,photo4,hmode,hstatus)
         {
             $("hid").val(hid);
             $("#name").val(hname);
-            //$("#section").val(sid);
-            $("select[name=section]").val("2");
+            $("#sid").val(sid);
             $("#tid").val(htype);
             $("#size").val(hsize);
             $("#floor").val(hfloor);
@@ -66,9 +71,9 @@
             $("#imgPr4").attr("src", photo4);
             $("#status").val(hstatus);
             $("#mode").val(hmode);
-            //alert(sid);
-            //alert(htype);
-            //alert(harea);
+
+            var form = layui.form;
+            form.render();   //表单重新渲染
 
             layer.open({
                 type: 1,
@@ -152,12 +157,6 @@
             });
         }
 
-        //layui中下拉框不显示，需要声明该表单
-        layui.use('form', function () {
-            var form = layui.form;
-            form.render();
-        });
-
         //关闭弹出层
         function myclose() {
             resetValue();
@@ -167,8 +166,7 @@
         //清空弹出层form表单中的内容
         function resetValue() {
             $("#name").val("");
-            var sid = $("#section").val();
-            alert(sid);
+            $("#sid").val("");
             $("#tid").val("");
             $("#size").val("");
             $("#floor").val("");
@@ -184,6 +182,9 @@
             $("#imgPr4").attr("src", "/Images/House/wu.jpg");
             $("#status").val("");
             $("#mode").val("");
+
+            var form = layui.form;
+            form.render();   //表单重新渲染
         }
 
         //图片预览
@@ -337,7 +338,7 @@
                                 <td style="color:limegreen">已审核</td>
                             <%}
                             else if(house.hstatus == 0) {%>
-                                <td style="color:dodgerblue">未审核</td>
+                                <td style="color:dodgerblue">待审核</td>
                             <%}
                             else if(house.hstatus == 2){%>
                                 <td style="color:orangered">不合法</td>
@@ -373,14 +374,12 @@
                         <label class="layui-form-label">房屋板块</label>
                         <div class="layui-input-block">
                             <select name="section" id="section">
-                                <option value="1">普通住宅</option>
-                                <option value="2">公寓</option>
-                                <%--<%
+                                <%
                                     foreach (myhouse.Model.Section section in sectionList)
                                     {%>
                                         <option value="<%=section.sid%>"><%=section.sname %></option>
                                     <%}
-                                %>--%>
+                                %>
                             </select>
                         </div>
                     </div>
@@ -475,7 +474,7 @@
                         <div class="layui-input-block">
                             <select style="width:auto;" name="status" id="status">
                                 <option value="">请选择...</option>
-                                <option value="0">未审核</option>
+                                <option value="0">待审核</option>
                                 <option value="1">已审核</option>
                                 <option value="2">不合法</option>
                             </select>
@@ -486,8 +485,8 @@
                         <div class="layui-input-block">
                             <select style="width:auto;" name="mode" id="mode">
                                 <option value="">请选择...</option>
-                                <option value="0">已出租</option>
-                                <option value="1">未出租</option>
+                                <option value="0">未出租</option>
+                                <option value="1">已出租</option>
                             </select>
                         </div>
                     </div>

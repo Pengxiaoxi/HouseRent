@@ -3,10 +3,11 @@ using myhouse.Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.IO;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Util;
 
 namespace myhouse.Web.MyAdmin
 {
@@ -31,11 +32,7 @@ namespace myhouse.Web.MyAdmin
         {
             string flag = Request["flag"];
 
-            if (flag == null || "".Equals(flag))
-            {
-                this.showuser();
-            }
-            else if (flag == "update")
+            if (flag == "update")
             {
                 this.updateuser();
             }
@@ -46,6 +43,10 @@ namespace myhouse.Web.MyAdmin
             else if (flag == "deletelist")
             {
                 this.deletelist();
+            }
+            else
+            {
+                this.showuser();
             }
         }
 
@@ -90,7 +91,56 @@ namespace myhouse.Web.MyAdmin
         //修改后更新用户信息
         protected void updateuser()
         {
+            int uid = Int32.Parse(Request["uid"]);
+            User user = userService.GetModel(uid);
 
+            string pass = Request["pass"];
+            if (pass != null && !"".Equals(pass))
+            {
+                user.upassword = MyMd5.GetMd5String(pass);
+            }
+
+            HttpPostedFile file = Request.Files["photo1"];  //获取上传的图片
+
+            string photo = user.uphoto;
+
+            if (file != null && !file.FileName.Equals(""))  //判断文件是否为空
+            {
+                string fileName = file.FileName;            //获取上传文件的文件名
+                string ext = Path.GetExtension(fileName);   //得到上传的文件的扩展名
+
+                if (ext == ".jpg" || ext == ".gif" || ext == ".png" || ext == "jpeg" || ext == ".JPG")  //判断文件类型是否符合要求
+                {
+                    string newFileNames = Guid.NewGuid().ToString() + ext;            //随机产生一个新的文件名
+
+                    photo = "/Images/face/" + newFileNames;     //photo存储路径+新文件名
+
+                    string fileSavePath = Request.MapPath("/Images/face/" + newFileNames);   //请求文件的相对路径
+
+                    file.SaveAs(fileSavePath);     //将文件保存
+                }
+            }
+
+            user.uphoto = photo;
+            user.unickname = Request["nickname"];
+            user.uname = Request["name"];
+            user.ucard = Request["card"];
+            user.usex = Request["sex"];
+            user.uemail = Request["email"];
+            user.uqq = Request["qq"];
+            user.utel = Request["tel"];
+            user.utype = Request["type"];
+
+            if (userService.Update(user))
+            {
+                Response.Write(true);
+                Response.End();
+            }
+            else
+            {
+                Response.Write(false);
+                Response.End();
+            }
         }
 
         //单个删除用户信息及其发布的房屋信息,用户的收藏信息也要删除

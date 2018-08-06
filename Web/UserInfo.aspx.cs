@@ -20,9 +20,11 @@ namespace myhouse.Web
         {
             if (IsPostBack)
             {
+                UserService userService = new UserService();
+
                 HttpPostedFile file = Request.Files["photo"];  //获取上传的图片
 
-                string photo = "";
+                string photo = ((User)Session["userInfo"]).uphoto;
 
                 if (file != null && !file.FileName.Equals(""))
                 {    //判断文件是否为空
@@ -40,20 +42,13 @@ namespace myhouse.Web
                         photo = "/Images/face/" + newFileNames;
 
                         file.SaveAs(fileSavePath);   //保存图片到服务器指定的目录中去
-                    }
-                    else
-                    {
-                        photo = ((User)Session["userInfo"]).uphoto;  //原头像
-                    }
-                }
-                else
-                {
-                    photo = ((User)Session["userInfo"]).uphoto;
+                    }                  
                 }
 
+                int uid = ((User)Session["userInfo"]).uid;
                 User user = new User();
+                user = userService.GetModel(uid);
 
-                user.uid = ((User)Session["userInfo"]).uid;
                 user.unickname = ((User)Session["userInfo"]).unickname;
                 user.uname = Request["name"];
                 user.utype = Request["type"];
@@ -65,7 +60,7 @@ namespace myhouse.Web
                 user.uemail = Request["email"];
 
                 //判断是否更改密码
-                if (Request["password1"] != "")
+                if (!"".Equals(Request["password1"]) && Request["password1"] !=null)
                 {
                     user.upassword = MyMd5.GetMd5String(Request["password1"]);
                 }
@@ -73,8 +68,6 @@ namespace myhouse.Web
                 {
                     user.upassword = ((User)Session["userInfo"]).upassword;
                 }
-
-                UserService userService = new UserService();
 
                 //更新方法
                 if (userService.Update(user))

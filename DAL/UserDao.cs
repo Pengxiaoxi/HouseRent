@@ -100,7 +100,8 @@ namespace myhouse.DAL
 			strSql.Append("uname=@uname,");
 			strSql.Append("usex=@usex,");
 			strSql.Append("uphoto=@uphoto,");
-			strSql.Append("ucardphoto=@ucardphoto,");
+            strSql.Append("ucard=@ucard,");
+            strSql.Append("ucardphoto=@ucardphoto,");
 			strSql.Append("upassword=@upassword,");
 			strSql.Append("utel=@utel,");
 			strSql.Append("uqq=@uqq,");
