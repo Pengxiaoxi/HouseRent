@@ -878,6 +878,7 @@
     <Content Include="MyAdmin\PersonalInfo.aspx" />
     <Content Include="MyAdmin\SectionList.aspx" />
     <Content Include="MyAdmin\UserInfo.aspx" />
+    <Content Include="MyAdmin\WorkerList.aspx" />
     <Content Include="MyCollect.aspx" />
     <Content Include="MyHouse.aspx" />
     <Content Include="Register.aspx" />
@@ -1247,6 +1248,13 @@
     </Compile>
     <Compile Include="MyAdmin\UserInfo.aspx.designer.cs">
       <DependentUpon>UserInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MyAdmin\WorkerList.aspx.cs">
+      <DependentUpon>WorkerList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyAdmin\WorkerList.aspx.designer.cs">
+      <DependentUpon>WorkerList.aspx</DependentUpon>
     </Compile>
     <Compile Include="MyCollect.aspx.cs">
       <DependentUpon>MyCollect.aspx</DependentUpon>
