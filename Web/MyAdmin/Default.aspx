@@ -109,7 +109,7 @@
 
     <!-- footer -->
     <div class="layui-footer my-footer">
-        <p style="margin-top:10px;">Copyright © 2018-7 Pengxiaoxi Inc.  All rights reserved</p>
+        <p style="margin-top:10px;">Copyright © 2018-7 <a href="https://github.com/Pengxiaoxi">Pengxiaoxi</a> Inc.  All rights reserved</p>
     </div>
     <!-- footer -->
 

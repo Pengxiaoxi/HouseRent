@@ -35,6 +35,11 @@ namespace myhouse.Web.MyAdmin
         //页面载入事件
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["adminInfo"] == null)
+            {
+                Response.Redirect("/MyAdmin/AdminLogin.aspx");
+            }
+
             string flag = Request["flag"];
 
             if (flag == null || "".Equals(flag)) {
@@ -100,7 +105,8 @@ namespace myhouse.Web.MyAdmin
             {
                 house.area = areaService.GetModel((int)house.harea);
                 house.housetype = hyService.GetModel((int)house.htype);
-                house.section = sectionService.GetModel((int)house.sid);
+                house.section = sectionService.GetModel(house.sid);
+                house.userinfo = userService.GetModel(house.uid);
             }
         }
 
@@ -108,16 +114,6 @@ namespace myhouse.Web.MyAdmin
         protected void updatehouse()
         {
             int hid = Int32.Parse(Request["hid"]);
-
-            //try
-            //{
-            //    hid = Int32.Parse(Request["hid"]);
-            //}
-            //catch (Exception){
-            //    Response.Write(false);
-            //    Response.End();
-            //    return;
-            //}
 
             House house = houseService.GetModel(hid);
 

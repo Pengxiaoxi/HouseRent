@@ -301,6 +301,7 @@
 		        <th>详细地址</th>
                 <th>描述</th>
                 <th>发布时间</th>
+                <th>发布人</th>
                 <th>图片</th>
                 <th>是否出租</th>
                 <th>信息状态</th>
@@ -325,6 +326,7 @@
                         <td><%=house.hadress %></td>
                         <td><%=house.hdescription %></td>
                         <td><%=house.htime %></td>
+                        <td><%=house.userinfo.uname %></td>
                         <td style="padding:4px; text-align:center;">
                             <img alt="" src="<%=house.hphotoone %>" style="width: 80px; height: 80px; border-radius:2px;">
                         </td>
@@ -348,8 +350,27 @@
                             <%}
                         %>
                         <td style="text-align:center; padding:0;">
-                            <button id="myupdate" class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" onclick="myupdate(<%=house.hid %>, '<%=house.hname %>', <%=house.htype %>, <%=house.sid %>, '<%=house.hsize %>', '<%=house.hfloor %>', '<%=house.hmoney %>', '<%=house.hcommunity %>', <%=house.harea %>, '<%=house.hadress %>', '<%=house.hdescription %>', '<%=house.hphotoone %>', '<%=house.hphototwo %>', '<%=house.hphotothree %>', '<%=house.hphotofour %>', <%=house.hmode %>, <%=house.hstatus %>)">修改</button><br />
-                            <button class="layui-btn layui-btn-small layui-btn-danger" onclick="mydelete(<%=house.hid %>)">删除</button>
+                            <%
+                                if (((myhouse.Model.Worker)Session["adminInfo"]).wtype == "0   ")
+                                {%>
+                                    <button class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;width:68px;" onclick="mydelete(<%=house.hid %>)">审核通过</button><br />
+                                    <button class="layui-btn layui-btn-small layui-btn-danger" style="width:68px;" onclick="mydelete(<%=house.hid %>)">不通过</button>
+                                <%}
+                                else if(((myhouse.Model.Worker)Session["adminInfo"]).wtype == "1  ")
+                                {%>
+                                    <button id="" class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" onclick="myupdate(<%=house.hid %>, '<%=house.hname %>', <%=house.htype %>, <%=house.sid %>, '<%=house.hsize %>', '<%=house.hfloor %>', '<%=house.hmoney %>', '<%=house.hcommunity %>', <%=house.harea %>, '<%=house.hadress %>', '<%=house.hdescription %>', '<%=house.hphotoone %>', '<%=house.hphototwo %>', '<%=house.hphotothree %>', '<%=house.hphotofour %>', <%=house.hmode %>, <%=house.hstatus %>)">修改</button><br />
+                                <%}
+                                else if(((myhouse.Model.Worker)Session["adminInfo"]).wtype == "2   " || ((myhouse.Model.Worker)Session["adminInfo"]).wtype == "8   ")
+                                {%>
+                                    <button id="myupdate" class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" onclick="myupdate(<%=house.hid %>, '<%=house.hname %>', <%=house.htype %>, <%=house.sid %>, '<%=house.hsize %>', '<%=house.hfloor %>', '<%=house.hmoney %>', '<%=house.hcommunity %>', <%=house.harea %>, '<%=house.hadress %>', '<%=house.hdescription %>', '<%=house.hphotoone %>', '<%=house.hphototwo %>', '<%=house.hphotothree %>', '<%=house.hphotofour %>', <%=house.hmode %>, <%=house.hstatus %>)">修改</button><br />
+                                    <button class="layui-btn layui-btn-small layui-btn-danger" onclick="mydelete(<%=house.hid %>)">删除</button>
+                                <%}
+                                else
+                                {%>
+                                    <button class="layui-btn layui-btn-small layui-btn-disabled">禁用</button>
+                                <%}
+                            %>
+                           
                         </td>
                     </tr>
                 <%}
