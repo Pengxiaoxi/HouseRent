@@ -242,7 +242,7 @@
                     <%}
                 %>
                 
-                <input type="text" name="unickname" id="unickname" value="<%=unickname %>" placeholder="请输入用户昵称" autocomplete="off" class="layui-input" style="height:30px;width:155px; margin-left:20px; float:left;" /> 
+                <input type="text" name="unickname" id="unickname" value="<%=unickname %>" placeholder="请输入用户昵称或姓名" autocomplete="off" class="layui-input" style="height:30px;width:155px; margin-left:20px; float:left;" /> 
                 <div class="layui-inline" style="height:30px; width:150px;" >
                     <div class="layui-input-inline" >
                         <select name="utype">

@@ -45,6 +45,7 @@ namespace myhouse.BLL
             if (unickname != null && !"".Equals(unickname))
             {
                 strWhere.Append("and unickname like '%"+ unickname + "%'");
+                strWhere.Append("or uname like '%" + unickname + "%'");
             }
             if (utype != null && !"".Equals(utype))
             {

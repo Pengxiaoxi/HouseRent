@@ -62,6 +62,7 @@ namespace myhouse.Web.MyAdmin
             if (atitle != null || "".Equals(atitle))
             {
                 strWhere.Append("atitle like '%"+atitle+"%'");
+                strWhere.Append("or acontent like '%" + atitle + "%'");
             }
 
             if (!Int32.TryParse(Request["page"], out pagenumber))

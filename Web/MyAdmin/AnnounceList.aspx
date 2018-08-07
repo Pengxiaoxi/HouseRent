@@ -148,7 +148,7 @@
                     <table>
                         <tr>
                             <td>
-                              <input type="text" name="atitle" id="atitle" value="<%=atitle %>" placeholder="请输入公告标题" autocomplete="off" class="layui-input" style="height:30px;width:130px; margin-right:6px;" /> 
+                              <input type="text" name="atitle" id="atitle" value="<%=atitle %>" placeholder="请输入公告标题或内容" autocomplete="off" class="layui-input" style="height:30px;width:220px; margin-right:6px;" /> 
                             </td>
                             <td>
                               <button id="search" type="submit" class="layui-btn layui-btn-small layui-btn-normal " ><i class="layui-icon">&#xe615;</i>查找公告</button>

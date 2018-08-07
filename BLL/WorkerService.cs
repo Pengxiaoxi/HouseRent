@@ -3,6 +3,10 @@ using System.Data;
 using System.Collections.Generic;
 using Maticsoft.Common;
 using myhouse.Model;
+using System.Collections;
+using System.Text;
+using Util;
+
 namespace myhouse.BLL
 {
 	/// <summary>
@@ -13,12 +17,86 @@ namespace myhouse.BLL
 		private readonly myhouse.DAL.WorkerDao dal=new myhouse.DAL.WorkerDao();
 		public WorkerService()
 		{}
-		#region  BasicMethod
+        #region  BasicMethod
 
-		/// <summary>
-		/// 得到最大ID
-		/// </summary>
-		public int GetMaxId()
+        public int pagesize = 6;   //每页6条数据
+
+        public string orderby;
+
+        //条件分页查询员工信息+排序方式
+        public ArrayList FindWorkerByPageOnWhere(int page, string name, string type, string order)
+        {
+            StringBuilder strWhere = new StringBuilder();
+            StringBuilder param = new StringBuilder();
+            
+            if (order == "0" || order == null)
+            {
+                orderby = "wid asc";
+            }
+            else if (order == "1")
+            {
+                orderby = "wid desc";
+            }
+
+            strWhere.Append("wid >" + 0);
+            if (name != null && !"".Equals(name))
+            {
+                strWhere.Append("and wname='"+name+"'");
+            }
+            if (type != null && !"".Equals(type))
+            {
+                //type为8，查询出管理员否则查出其他的type!= 8的
+                if (type == "8")
+                {
+                    strWhere.Append("and wtype='" + type + "'");
+                }
+                else
+                {
+                    strWhere.Append("and wtype !='" + 8 + "'");
+                }
+            }
+
+            int record = this.GetRecordCount(strWhere.ToString());
+            int maxpage = 1;
+            if (record % pagesize == 0)
+            {
+                maxpage = record / pagesize;
+            }
+            else
+            {
+                maxpage = record / pagesize + 1;
+            }
+            if (page > maxpage)
+            {
+                page = maxpage;
+            }
+
+            DataSet ds = this.GetListByPage(strWhere.ToString(), orderby, (page-1) * pagesize +1, page * pagesize);
+            List<Worker> workerList = DataTableToList(ds.Tables[0]);
+
+            param.Append("order="+order);
+            if (name != null && !"".Equals(name))
+            {
+                param.Append("&name="+name);
+            }
+            if (type != null && !"".Equals(type))
+            {
+                param.Append("&type=" + type);
+            }
+
+            string pageCode = PageUtil.genPagination("/MyAdmin/WorkerList.aspx", record, page, pagesize, param.ToString());
+
+            ArrayList list = new ArrayList();
+            list.Add(workerList);
+            list.Add(pageCode);
+
+            return list;
+        }
+
+        /// <summary>
+        /// 得到最大ID
+        /// </summary>
+        public int GetMaxId()
 		{
 			return dal.GetMaxId();
 		}
