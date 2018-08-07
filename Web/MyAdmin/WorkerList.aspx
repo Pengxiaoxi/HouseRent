@@ -289,25 +289,25 @@
 
                         <%
                             if (worker.wtype == "0   "){%>
-                                <td style="color:limegreen">√</td>
+                                <td><i class="layui-icon" style="font-size: 30px; color:limegreen;">&#xe605;</i></td>
                                 <td></td>
                                 <td></td>
                             <%}
                             else if(worker.wtype == "1   ") {%>
                                 <td></td>
-                                <td style="color:limegreen">√</td>
+                                <td><i class="layui-icon" style="font-size: 30px; color:limegreen;">&#xe605;</i></td>
                                 <td></td>
                                 
                             <%}
                             else if(worker.wtype == "2   ") {%>
                                 <td></td>
                                 <td></td>
-                                <td style="color:limegreen">√</td>
+                                <td><i class="layui-icon" style="font-size: 30px; color:limegreen;">&#xe605;</i></td>
                             <%}
                             else if(worker.wtype == "8   ") {%>
-                                <td style="color:limegreen">√</td>
-                                <td style="color:limegreen">√</td>
-                                <td style="color:limegreen">√</td>
+                                <td><i class="layui-icon" style="font-size: 30px; color:limegreen;">&#xe605;</i></td>
+                                <td><i class="layui-icon" style="font-size: 30px; color:limegreen;">&#xe605;</i></td>
+                                <td><i class="layui-icon" style="font-size: 30px; color:limegreen;">&#xe605;</i></td>
                             <%}
                         %>
 
