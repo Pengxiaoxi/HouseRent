@@ -19,9 +19,12 @@ namespace myhouse.BLL
 		{}
         #region  BasicMethod
 
-        public int pagesize = 6;   //每页6条数据
+        public int pagesize = 5;   //每页5条数据
 
         public string orderby;
+
+        int admintype = 8;   //管理员用户类型
+        int workertype = 1;  //员工
 
         //条件分页查询员工信息+排序方式
         public ArrayList FindWorkerByPageOnWhere(int page, string name, string type, string order)
@@ -31,6 +34,7 @@ namespace myhouse.BLL
             
             if (order == "0" || order == null)
             {
+                order = "0";
                 orderby = "wid asc";
             }
             else if (order == "1")
@@ -45,14 +49,18 @@ namespace myhouse.BLL
             }
             if (type != null && !"".Equals(type))
             {
-                //type为8，查询出管理员否则查出其他的type!= 8的
+                //type为8，查询出管理员否则查出其他的不同类型的员工的
                 if (type == "8")
                 {
                     strWhere.Append("and wtype='" + type + "'");
                 }
+                else if (type == "6")    //全部员工
+                {
+                    strWhere.Append("and wtype !='" + admintype + "'");
+                }
                 else
                 {
-                    strWhere.Append("and wtype !='" + 8 + "'");
+                    strWhere.Append("and wtype ='" + type + "'");
                 }
             }
 
@@ -81,7 +89,20 @@ namespace myhouse.BLL
             }
             if (type != null && !"".Equals(type))
             {
-                param.Append("&type=" + type);
+                //管理员则只需要传递一个peopletype,当type为员工时则需要将permission的值进行传递判断是选择的哪一个权限
+                if (type == "8")
+                {
+                    param.Append("&peopletype=" + type);
+                }
+                else if (type == "6")
+                {
+                    param.Append("&peopletype=" + workertype);
+                }
+                else
+                {
+                    param.Append("&peopletype=" + workertype);
+                    param.Append("&permission=" + type);
+                }
             }
 
             string pageCode = PageUtil.genPagination("/MyAdmin/WorkerList.aspx", record, page, pagesize, param.ToString());

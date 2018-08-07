@@ -63,12 +63,12 @@
         }
     }
 
-    //添加员工信息
+    //添加员工信息-打开弹出层
     function myadd()
     {
         layer.open({
             type: 1,
-            title: '修改员工信息',
+            title: '添加员工信息',
             area: ['800px', '500px'],
             offset: '20px',
             anim: 1,
@@ -76,25 +76,108 @@
             shade: 0.1,
             content: $("#updateworker")
         });
-
-
     }
 
-    //修改员工信息
-    function myupdate()
-    {
+    //修改员工信息-给表单赋值并打开弹出层
+    function myupdate() {
+        $("#name").val("");
+        $("#sex").val("");
+        $("#card").val("");
+        $("#newpass").val("");
+        $("#newpass2").val("");
+        $("#tel").val("");
+        $("#email").val("");
+        $("#adress").val("");
+        $("#type").val("");
+        $("#simg").attr("src", "/Images/House/wu.jpg");
 
-
+        var form = layui.form;
+        form.render();   //表单重新渲染
 
         layer.open({
             type: 1,
-            title: '修改员工信息',
+            title: '添加员工信息',
             area: ['800px', '500px'],
             offset: '20px',
             anim: 1,
             skin: "myclass",
             shade: 0.1,
             content: $("#updateworker")
+        });
+    }
+
+    //保存员工信息
+    function mysave()
+    {
+        if ($("#name").val() == "" || $("#newpass").val() == "") {
+            layer.msg('请填写员工的姓名等信息!!!', { icon: 5 });
+        }
+        else {
+            var form = document.getElementById('fm');
+            var formData = new FormData(form);
+            //alert(formData);
+
+            $.ajax({
+                type: "POST",
+                url: "/MyAdmin/WorkerList.aspx?flag=addorupdate",
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (msg) {
+                    if (msg) {
+                        layer.msg('该用户信息修改成功!', { icon: 1 });
+                        setTimeout("window.location.reload(true)", 600);
+                    }
+                    else {
+                        layer.msg('用户信息修改失败!', { icon: 5 })
+                    }
+                }
+            });
+        }
+    }
+
+    //单个删除员工信息
+    function mydelete(wid)
+    {
+        layer.confirm('您确定要删除此员工的信息吗?', { icon: 3, title: '提示' }, function (index) {
+            $.post("/MyAdmin/WorkerList.aspx?flag=delete", { wid: wid }, function (result) {
+                if (result) {
+                    layer.msg('删除成功!', { icon: 1 });
+                    setTimeout('window.location.reload(true)', 800);
+                }
+                else {
+                    layer.msg('删除失败...', { icon: 5 });
+                }
+            }, "text");
+        });
+    }
+
+    //批量删除员工信息
+    function deletelist() {
+        //获取勾选的check的值
+        var idlist = new Array();
+        $('input[name="check"]:checked').each(function () {
+            idlist.push($(this).val());//向数组中添加元素  
+        });
+
+        if (idlist.length == 0) {
+            layer.alert('请先选择需要删除的员工!', { icon: 5 });
+            return;
+        }
+        var ids = idlist.join(',');//将数组元素连接起来以构建一个字符串
+
+        layer.confirm('您确定要删除这' + idlist.length + '个员工的所有信息吗?', { icon: 3, title: '提示' }, function (index) {
+            $.post("/MyAdmin/WorkerList.aspx?flag=delete", { ids: ids }, function (result) {
+                if (result) {
+                    layer.msg('删除成功!', { icon: 1 });
+                    setTimeout('window.location.reload(true)', 500);
+                }
+                else {
+                    layer.msg('删除失败...', { icon: 5 });
+                }
+            }, "text");
         });
     }
 
@@ -121,31 +204,6 @@
         form.render();   //表单重新渲染
     }
 
-    //function decide()
-    //{
-    //    if($("#peopletype").val() == 0)
-    //    {
-    //        alert($("#peopletype").val);
-    //        //alert(123);
-    //        $("#permission").attr("disabled", "disabled")
-    //        //alert(66);
-    //    }
-    //}
-
-    //$("#peopletype").blur(function () {
-    //    if ($("#peopletype").val() == 0) {
-    //        alert(123);
-    //        $("#permission").attr("disabled", "disabled")
-    //        alert(66);
-    //    }
-    //})
-
-    //$(function () {
-    //    $("#peopletype").bind("blur", function () {
-    //        alert(123);
-    //    });
-    //})
-
 </script>
 
 
@@ -155,7 +213,7 @@
             <legend>员工信息管理</legend>
         </fieldset>
         <div style="text-align:left;height:30px; padding:0;" >        
-            <form class="layui-form" action="/MyAdmin/WorkerList.aspx" method="post" style="height:30px;" id="d1">         
+            <form class="layui-form" runat="server" style="height:30px;" id="d1">         
                 <button class="layui-btn layui-btn-small layui-btn-danger" type="button" style="float:left;" onclick="deletelist()"><i class="layui-icon">&#xe640;</i>批量删除</button>&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="text" name="wname" id="wname" value="<%=name %>" placeholder="请输入员工姓名" autocomplete="off" class="layui-input" style="height:30px;width:130px; margin-left:20px; float:left;" />          
                 <div class="layui-inline" style="height:30px; width:100px; margin-right:10px;" >
@@ -164,15 +222,13 @@
                             <option value="">全部人员</option>
                             <option value="8" <%=type == "8" ? "selected" : "" %>  >管理员</option>
                             <option value="1" <%=type == "1" ? "selected" : "" %>  >员工</option>
-                            <option value="1" <%=type == "0" ? "selected" : "" %>  >员工</option>
-                            <option value="1" <%=type == "2" ? "selected" : "" %>  >员工</option>
                         </select>
                     </div>
                 </div>
                 <div class="layui-inline" style="height:30px; width:100px;" >
                     <div class="layui-input-inline" >
                         <select name="permission" id="permission" >
-                            <option value="">所有权限</option>
+                            <option value="">权限选择</option>
                             <option value="0" <%=permission == "0" ? "selected" : "" %> >权限一</option>
                             <option value="1" <%=permission == "1" ? "selected" : "" %> >权限二</option>
                             <option value="2" <%=permission == "2" ? "selected" : "" %> >权限三</option>
@@ -218,7 +274,7 @@
                     foreach(myhouse.Model.Worker worker in workerList)
                  {%>        
                     <tr >
-                        <td><input type="checkbox" name="check" value=""/></td>
+                        <td><input type="checkbox" name="check" value="<%=worker.wid %>"/></td>
                         <td><%=worker.wid %></td>
                         <td><%=worker.wname %></td>
                         <td><%=worker.wsex %></td>
@@ -268,7 +324,7 @@
                         
                         <td style="text-align:center; padding:0;">
                              <button id="myupdate" class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" onclick="myupdate()">修改</button><br />
-                             <button class="layui-btn layui-btn-small layui-btn-danger" onclick="mydelete()">删除</button>                       
+                             <button class="layui-btn layui-btn-small layui-btn-danger" onclick="mydelete(<%=worker.wid %>)">删除</button>                       
                         </td>
                     </tr>
                 <%}
@@ -284,12 +340,12 @@
         <%--弹出层，修改员工信息与权限--%>
         <div id="updateworker" class="layui-elem-field layui-field-title" style="display:none;">
             <div class="layui-col-md10" style="padding-right:0px;">
-                <form class="layui-form layui-form-pane" id="fm" runat="server" enctype="multipart/form-data">
+                <form class="layui-form layui-form-pane" id="fm" action="/MyAdmin/WorkerList.aspx" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="wid" id="wid" value=""/>
                      <div class="layui-form-item">
                         <div class="layui-input-block" style="width:200px; margin-left:50%;">
                             <input type="file" name="photo" id="simg" style="display:none;"/>
-                            <img id="imgPr" style="width: 80px; height: 80px; border-radius:50%; " src="" /><br /><br />
+                            <img id="imgPr" style="width: 80px; height: 80px; border-radius:50%; " src="/Images/face/xi.jpg" /><br /><br />
                             <label class="fileLabel" for="simg">选择头像</label>
                         </div>
                     </div>
