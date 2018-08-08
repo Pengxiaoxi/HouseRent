@@ -41,13 +41,65 @@
 
     var c1 = $("#c1").val()
 
+    var t1 = "衬衫";
+
     //bar line pie
 
-    $("docuemnt").ready($.post("/MyAdmin/AdminIndex.aspx", {}, function (result) {
-        alert(result);
+    //$("docuemnt").ready($.post("/MyAdmin/AdminIndex.aspx", {}, function (result) {
+    //    alert(result);
 
-    }, "json")
-    );
+    //}, "json")
+    //);
+
+
+    //var xmlhttp = new XMLHttpRequest();
+    //xmlhttp.onreadystatechange = function () {
+    //    if (this.readyState == 4 && this.status == 200) {
+    //        myArr = JSON.parse(this.responseText);
+    //        //document.getElementById("demo").innerHTML = myArr[1];
+            
+    //    }
+    //};
+    //xmlhttp.open("GET", "/MyAdmin/AdminIndex.aspx", true);
+    //xmlhttp.send();
+    
+    $.ajax({
+        type: "post",
+        url: "/MyAdmin/AdminIndex.aspx?flag=housecount",
+        dataType: "json",
+        success: function (data) {
+
+            //var varReceiver = data;
+            var varReceiver = jQuery.parseJSON(data);
+            var a1 = JSON.parse(data)
+            var varAxis = new Array();
+            alert(data)
+            alert(varReceiver);
+            alert(a1);
+
+            //var varSeries = new Array(varReceiver.Count[0].total);
+
+            //for (var i = 0; i < varReceiver.Count[0].total; i++) {
+            //    varAxis.push(varReceiver.Rows[i].RecordTime);
+            //    varSeries[i] = varReceiver.Rows[i].RoomTemp;
+            //}
+            //// 填入数据
+            //myChart.setOption({
+            //    xAxis: {
+            //        data: varAxis
+            //    },
+            //    series: [{
+            //        //根据名字对应到相应的系列
+            //        name: '温度',
+            //        data: varSeries
+            //    }]
+            //});
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+
 
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption({
@@ -59,13 +111,13 @@
             data:['数量']
         },
         xAxis: {
-            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            data: [t1, "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子", t1, "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
         },
         yAxis: {},
         series: [{
             name: '数量',
             type: 'bar',
-            data: [c1, 20, 36, 10, 10, 20]
+            data: [c1, 20, 36, 10, 10, 20, c1, 20, 36, 10, 10, 20]
         }]
     });
 

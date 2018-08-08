@@ -1,11 +1,9 @@
 ﻿using myhouse.BLL;
 using myhouse.Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Web.Script.Serialization;
 
 namespace myhouse.Web.MyAdmin
 {
@@ -23,14 +21,47 @@ namespace myhouse.Web.MyAdmin
             SectionService sectionService = new SectionService();
             HouseService houseService = new HouseService();
 
-            sectionList = sectionService.GetModelList("");
+            string flag = Request["flag"];
 
-            foreach (Section section in sectionList)
+            if (flag == "housecount")
             {
-                section.housecount = houseService.GetRecordCount("sid =" +section.sid);
-            }
+                sectionList = sectionService.GetModelList("");
 
-            Response.Write("12");
+                foreach (Section section in sectionList)
+                {
+                    section.housecount = houseService.GetRecordCount("sid =" + section.sid);
+                }
+
+                ArrayList housecountlist = new ArrayList();
+
+                for (int i = 0; i < sectionList.Count; i++)
+                {
+                    Hashtable ht = new Hashtable();
+
+                    if (sectionList[i].housecount > 0)
+                    {
+                        ht.Add("sname", sectionList[i].sname);
+                        ht.Add("housecount", sectionList[i].housecount);
+                    }
+                    else
+                    {
+                        ht.Add("sname", sectionList[i].sname);
+                        ht.Add("housecount", null);
+                    }
+
+                    housecountlist.Add(ht);
+                }
+
+                JavaScriptSerializer ser = new JavaScriptSerializer();
+
+                String jsonStr = ser.Serialize(housecountlist);
+
+                Response.Write(jsonStr);
+            }
+            else
+            {
+
+            }
 
         }
     }
