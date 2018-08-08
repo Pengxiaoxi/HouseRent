@@ -14,8 +14,8 @@
 </head>
 <body class="body">
     <h1 style="font-size:30px;">蛋炒饭不加蛋</h1>
-<%--<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-<div id="main-line" style="width: 100%;height:400px;"></div>
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<%--<div id="main-line" style="width: 100%;height:400px;"></div>
 
 <div id="main-bing" style="width: 100%;height:400px;"></div>--%>
 

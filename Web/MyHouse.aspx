@@ -51,7 +51,7 @@
                 {%>
                 <table style="width: 100%;" align="center">
 						    <tr height="30" ><td style="text-indent:5;background-size:100%; border-radius:5px; " background="/images/index/3.jpg"   ><b><font color="white">❤我发布的房屋信息 |</font></b>&nbsp;&nbsp;
-                                <a class="housemenu" href="/MyHouse.aspx">已审核的房屋&nbsp;&nbsp;|</a>&nbsp;&nbsp;<a class="housemenu" href="/MyHouse.aspx?flag=unreview">未审核的房屋&nbsp;&nbsp;|</a> &nbsp;&nbsp;<a class="housemenu" href="/MyHouse.aspx?flag=unreview">审核未通过的房屋</a> 
+                                <a class="housemenu" href="/MyHouse.aspx">已审核的房屋&nbsp;&nbsp;|</a>&nbsp;&nbsp;<a class="housemenu" href="/MyHouse.aspx?flag=unreview">未审核的房屋&nbsp;&nbsp;|</a> &nbsp;&nbsp;<a class="housemenu" href="/MyHouse.aspx?flag=nopass">审核未通过的房屋</a> 
                                 <input type="button" onclick="window.open('/HouseAdd.aspx')" value="发布新的房屋信息" class="newhouse" /></td>
 						    </tr>
 

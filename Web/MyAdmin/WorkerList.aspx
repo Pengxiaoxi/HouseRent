@@ -79,17 +79,18 @@
     }
 
     //修改员工信息-给表单赋值并打开弹出层
-    function myupdate() {
-        $("#name").val("");
-        $("#sex").val("");
-        $("#card").val("");
+    function myupdate(wid,name, sex, card, tel, email, adress, type, simg) {
+        $("#wid").val(wid)
+        $("#name").val(name);
+        $("#sex").val(sex);
+        $("#card").val(card);
         $("#newpass").val("");
         $("#newpass2").val("");
-        $("#tel").val("");
-        $("#email").val("");
-        $("#adress").val("");
-        $("#type").val("");
-        $("#simg").attr("src", "/Images/House/wu.jpg");
+        $("#tel").val(tel);
+        $("#email").val(email);
+        $("#adress").val(adress);
+        $("#type").val(type);
+        $("#imgPr").attr("src", simg);
 
         var form = layui.form;
         form.render();   //表单重新渲染
@@ -109,8 +110,8 @@
     //保存员工信息
     function mysave()
     {
-        if ($("#name").val() == "" || $("#newpass").val() == "") {
-            layer.msg('请填写员工的姓名等信息!!!', { icon: 5 });
+        if ($("#name").val() == "" || $("#card").val() == "") {
+            layer.msg('请填写员工的相关信息!!!', { icon: 5 });
         }
         else {
             var form = document.getElementById('fm');
@@ -121,17 +122,17 @@
                 type: "POST",
                 url: "/MyAdmin/WorkerList.aspx?flag=addorupdate",
                 data: formData,
-                async: false,
+                async: true,
                 cache: false,
                 contentType: false,
                 processData: false,
                 success: function (msg) {
                     if (msg) {
-                        layer.msg('该用户信息修改成功!', { icon: 1 });
+                        layer.msg('该员工信息保存成功!', { icon: 1 });
                         setTimeout("window.location.reload(true)", 600);
                     }
                     else {
-                        layer.msg('用户信息修改失败!', { icon: 5 })
+                        layer.msg('该员工信息保存失败!', { icon: 5 })
                     }
                 }
             });
@@ -181,6 +182,20 @@
         });
     }
 
+    //检查身份证号是否已存在
+    function checkcard()
+    {
+        var cardId = $("#card").val();
+
+        $.post("/MyAdmin/WorkerList.aspx?flag=check", { cardId: cardId }, function (result) {
+            if (result == "True") {
+                layer.alert('该身份证号已存在!!!', { icon: 5 });
+            }
+            else {
+            }
+        }, "text");
+    }
+
     //关闭弹出层
     function myclose() {
         resetValue();
@@ -198,7 +213,8 @@
         $("#email").val("");
         $("#adress").val("");
         $("#type").val("");
-        $("#simg").attr("src", "/Images/House/wu.jpg");
+        $("#imgPr").attr("src", "/Images/House/wu.jpg");
+        $("#simg").val("")
 
         var form = layui.form;
         form.render();   //表单重新渲染
@@ -323,7 +339,7 @@
                         %>
                         
                         <td style="text-align:center; padding:0;">
-                             <button id="myupdate" class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" onclick="myupdate()">修改</button><br />
+                             <button id="myupdate" class="layui-btn layui-btn-small layui-btn-normal" style="margin-bottom:4px;" onclick="myupdate(<%=worker.wid %>, '<%=worker.wname %>', '<%=worker.wsex %>', '<%=worker.wcard %>', '<%=worker.wtel %>', '<%=worker.wemail %>', '<%=worker.wadress %>', <%=worker.wtype %>, '<%=worker.wphoto %>')">修改</button><br />
                              <button class="layui-btn layui-btn-small layui-btn-danger" onclick="mydelete(<%=worker.wid %>)">删除</button>                       
                         </td>
                     </tr>
@@ -359,29 +375,29 @@
                         <label class="layui-form-label">性别</label>
                         <div class="layui-input-block">
                             <select name="sex" id="sex">
-                                <option value="男"  >男</option>
-                                <option value="女"  >女</option>
+                                <option value="男  ">男</option>
+                                <option value="女  ">女</option>
                             </select>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">身份证号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="card" id="card"  autocomplete="off" value="" class="layui-input"/>
+                            <input type="text" name="card" id="card" autocomplete="off" value="" class="layui-input" onblur="checkcard()" />
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">新密码</label>
+                        <label class="layui-form-label">密码</label>
 
                         <div class="layui-input-block">
-                            <input type="password" name="newpass" id="newpass" placeholder="需要更改则输入，否则无需输入..." autocomplete="off" value="" class="layui-input"/>
+                            <input onfocus="this.type='password'" name="newpass" id="newpass" autocomplete="off" placeholder="需要更改则输入，否则无需输入(添加员工需要输入密码)" autocomplete="off" value="" class="layui-input"/>
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">确认新密码</label>
+                        <label class="layui-form-label">确认密码</label>
 
                         <div class="layui-input-block">
-                            <input type="password" name="newpass2" id="newpass2" onblur="checkpass()" placeholder="需要更改则输入，否则无需输入..." autocomplete="off" value="" class="layui-input"/>
+                            <input onfocus="this.type='password'"  name="newpass2" id="newpass2" onblur="checkpass()" autocomplete="off" placeholder="需要更改则输入，否则无需输入(添加员工需要输入密码)" autocomplete="off" value="" class="layui-input"/>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -412,6 +428,7 @@
                                 <option value="0">权限一（仅审核)</option>
                                 <option value="1">权限二（审核+修改）</option>
                                 <option value="2">权限三（审核+修改+删除）</option>
+                                <option value="8">管理员</option>
                             </select>
                         </div>
                     </div>

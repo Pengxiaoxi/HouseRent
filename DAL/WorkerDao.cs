@@ -55,7 +55,7 @@ namespace myhouse.DAL
 					new SqlParameter("@wname", SqlDbType.Char,12),
 					new SqlParameter("@wsex", SqlDbType.Char,4),
 					new SqlParameter("@wphoto", SqlDbType.VarChar,100),
-					new SqlParameter("@wcard", SqlDbType.Char,20),
+					new SqlParameter("@wcard", SqlDbType.VarChar,20),
 					new SqlParameter("@wpassword", SqlDbType.VarChar,50),
 					new SqlParameter("@wtel", SqlDbType.Char,13),
 					new SqlParameter("@wemail", SqlDbType.VarChar,30),
@@ -107,7 +107,7 @@ namespace myhouse.DAL
 					new SqlParameter("@wadress", SqlDbType.VarChar,50),
 					new SqlParameter("@wtype", SqlDbType.Char,4),
 					new SqlParameter("@wid", SqlDbType.Int,4),
-					new SqlParameter("@wcard", SqlDbType.Char,20)};
+					new SqlParameter("@wcard", SqlDbType.VarChar,20)};
 			parameters[0].Value = model.wname;
 			parameters[1].Value = model.wsex;
 			parameters[2].Value = model.wphoto;

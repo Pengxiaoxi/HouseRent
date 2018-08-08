@@ -104,7 +104,6 @@ namespace myhouse.BLL
                     param.Append("&permission=" + type);
                 }
             }
-
             string pageCode = PageUtil.genPagination("/MyAdmin/WorkerList.aspx", record, page, pagesize, param.ToString());
 
             ArrayList list = new ArrayList();
@@ -113,6 +112,27 @@ namespace myhouse.BLL
 
             return list;
         }
+
+        //添加或修改根据wid>0则更新方法，反之添加
+        public bool addorupdate(Worker worker)
+        {
+            if (worker.wid > 0)
+            {
+                return this.Update(worker);
+            }
+            else
+            {
+                if (this.Add(worker) > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        
 
         /// <summary>
         /// 得到最大ID

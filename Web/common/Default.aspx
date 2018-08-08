@@ -16,7 +16,13 @@
 			<tr>
 				<td>
 					<table style="width: 100%;" align="center">
-						<tr height="30" ><td style="text-indent:5;background-size:100%; border-radius:5px; " background="/images/index/3.jpg"  ><b><font color="white">❤<%=section.sname %>❤</font></b><a style="position:absolute; right:2px; text-decoration:none;color:white" href="/HouseList.aspx?sid=<%=section.sid %>">浏览更多</a></td>
+                        <%
+                            if (section.houseList.Count > 0)
+                            {%>
+                                <tr height="30" ><td style="text-indent:5;background-size:100%; border-radius:5px; " background="/images/index/3.jpg"  ><b><font color="white">❤<%=section.sname %>❤</font></b><a style="position:absolute; right:2px; text-decoration:none;color:white" href="/HouseList.aspx?sid=<%=section.sid %>">浏览更多</a></td>
+                            <%}
+                        %>
+						
 						</tr>
 						<tr>
 							<td>
@@ -39,7 +45,13 @@
 								</div>
 							</td>
 						</tr>
-						<tr height="25"><td style="text-indent:10"><font color="#F9F9F9)">详细介绍：<%=section.sdescription %></font></td></tr>
+                        <%
+                            if (section.houseList.Count > 0)
+                            {%>
+                                <tr height="25"><td style="text-indent:10"><font color="#F9F9F9)">详细介绍：<%=section.sdescription %></font></td></tr>
+                            <%}
+                        %>
+						
 					</table>
 				</td>
 			</tr>
