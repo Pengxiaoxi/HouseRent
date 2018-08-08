@@ -15,17 +15,39 @@
 <body class="body">
     <h1 style="font-size:30px;">蛋炒饭不加蛋</h1>
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-<%--<div id="main-line" style="width: 100%;height:400px;"></div>
+<div id="main-line" style="width: 100%;height:400px;"></div>
 
-<div id="main-bing" style="width: 100%;height:400px;"></div>--%>
+<div id="main-bing" style="width: 50%;height:400px;"></div>
+
+<div>
+    <% 
+
+    %>
+    <input type="hidden" id="c1" value="80"/>
+
+</div>
+
 
 <script type="text/javascript" src="/MyAdmin/frame/layui/layui.js"></script>
 <script type="text/javascript" src="/MyAdmin/frame/echarts/echarts.min.js"></script>
+<script src="/MyAdmin/js/jquery-1.11.1.js"></script>
 <script type="text/javascript">
 
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main-line'));
 
+    //var newArr = new Array();
+    //newArr.push($("#c1").val());
+
+    var c1 = $("#c1").val()
+
+    //bar line pie
+
+    $("docuemnt").ready($.post("/MyAdmin/AdminIndex.aspx", {}, function (result) {
+        alert(result);
+
+    }, "json")
+    );
 
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption({
@@ -43,7 +65,7 @@
         series: [{
             name: '数量',
             type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
+            data: [c1, 20, 36, 10, 10, 20]
         }]
     });
 

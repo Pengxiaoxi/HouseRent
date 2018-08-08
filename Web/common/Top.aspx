@@ -11,42 +11,6 @@
 
     <script src="../lib/jquery/1.9.1/jquery.min.js"></script>
 
-<%--    <style>
-        #menu a:active {
-        border-radius: 20px;
-	    text-decoration: none;
-        background-color:forestgreen;
-}
-        .a1 {
-            border-radius: 20px;
-	        text-decoration: none;
-            background-color:forestgreen;
-        }
-    </style>--%>
-
-<script>
-         //$('#menu-ul li').click(function () {
-         //       var f = this;
-         //       $('#menu li').each(function () { this.className = this == f ? 'menu-click' : 'menu-click' });
-         //});
-
-    //$("#menu ul li a").click(function () {
-    //    var f = this;
-    //    alert(f);
-        
-    //    $('#menu ul li a').addClass('a1');
-    //});
-
-         //var url = window.location.pathname;
-         ////alert(url);
-         //if (url == "/Index.aspx") {
-         //    $("#a1").css("background-color", "forestgreen");
-         //}
-         //else if (url == "/MyHouse.aspx") {
-         //    $("#a2").css("background-color", "red");
-         //}
-</script>
-
     <script type="text/javascript">
         function loginout() {
 	        if (confirm("您确定要退出吗？")) {
@@ -79,7 +43,7 @@
 				<li ><a href="/MyHouse.aspx">我的房屋</a></li>
 				<li ><a href="/ViewAnnounce.aspx ">公告浏览</a></li>
                 <li ><a href="/MyCollect.aspx">我的收藏</a></li>
-				<li ><a href="/UserInfo.aspx">个人信息</a></li>
+				<%--<li ><a href="/UserInfo.aspx">个人信息</a></li>--%>
 				<li ><a href="/MyAdmin/AdminLogin.aspx">后台管理</a></li>
 			</ul>
 		</div>

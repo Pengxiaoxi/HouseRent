@@ -20,7 +20,7 @@
                 <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=750907856&site=qq&menu=yes"><img src="http://wpa.qq.com/pa?p=2:750907856:51" alt="QQ反馈" title="QQ反馈"/></a>
             </div>
             <div style="width:100px; float:left; margin-left:20px; padding:3px 0" >
-                <a href="mailto:pengxi1520@qq.com" >问题邮箱</a>
+                <a href="mailto:pengxi1520@qq.com" >pengxi1520@qq.com </a>
             </div>
             <div class="footer_right_links">
             <a href="/MyAdmin/AdminLogin.aspx" target="_blank">后台管理</a>

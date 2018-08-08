@@ -34,10 +34,10 @@
 
 
 <script>
-    var url = parent.location.pathname;
-    if (url != '/MyAdmin/Default.aspx') {
-        window.location.href = "/MyAdmin/AdminLogin.aspx";
-    }
+    //var url = parent.location.pathname;
+    //if (url != '/MyAdmin/Default.aspx') {
+    //    window.location.href = "/MyAdmin/AdminLogin.aspx";
+    //}
 
     //在 layui 中使用 layer  打开弹出层！！！
     layui.use('layer', function () {

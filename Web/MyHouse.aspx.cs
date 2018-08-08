@@ -58,12 +58,14 @@ namespace myhouse.Web
                 }
 
                 //分页查询出该房主所发布的已审核的房屋的信息（发布时间倒叙）
-                string param = "uid= '" + uid + "' and hstatus ='" + hstatus + "'";
+                string strWhere = "uid= '" + uid + "' and hstatus ='" + hstatus + "'";
 
-                houseList = houseService.FindHouseByPageWhere(param, "htime desc", page, houseService.pagecount);
+                string param = "flag=" + flag;
+
+                houseList = houseService.FindHouseByPageWhere(strWhere, "htime desc", page, houseService.pagecount);
 
                 //分页链接
-                pageCode = PageUtil.genPagination("/MyHouse.aspx", houseService.GetRecordCount(param), page, houseService.pagecount, param);
+                pageCode = PageUtil.genPagination("/MyHouse.aspx", houseService.GetRecordCount(strWhere), page, houseService.pagecount, param);
 
             }
         }
