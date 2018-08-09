@@ -13,22 +13,13 @@
     <%--<link rel="icon" href="/MyAdmin/frame/static/image/code.png">--%>
 </head>
 <body class="body">
-    <h1 style="font-size:30px;">蛋炒饭不加蛋</h1>
-    <input type="hidden" id="c1" value="80"/>
 
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 <div id="main-line" style="width: 100%;height:400px;"></div>
 
-<div id="main-bing" style="width: 50%;height:400px;"></div>
+<div id="main-bing" style="width: 50%;height:400px; float:left;"></div>
 
-<div>
-    <% 
-
-    %>
-    
-
-
-</div>
+<div id="main-bing2" style="width: 50%;height:400px; float:right;"></div>
 
 
 <script type="text/javascript" src="/MyAdmin/frame/layui/layui.js"></script>
@@ -36,104 +27,168 @@
 <script src="/MyAdmin/js/jquery-1.11.1.js"></script>
 <script type="text/javascript">
 
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main-line'));
-
-    //var newArr = new Array();
-    //newArr.push($("#c1").val());
-
-    var c1 = $("#c1").val();
-
-    var t1 = "衬衫";
-
-    //////bar line piek
+    //-------------------------
+    //////bar line pie  不同图形
     //-------------------------
 
-    
- 
+    //-----------<各板块下房屋数量统计>
+
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main-line'));
 
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption({
         title: {
-            text: '信息统计'
+            text: '<各板块下房屋数量统计>'
         },
         tooltip: {},
         legend: {
             data:['数量']
         },
         xAxis: {
-            data: [t1, "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子", t1, "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+            data: []
         },
         yAxis: {},
         series: [{
             name: '数量',
             type: 'bar',
-            data: [c1, 20, 36, 10, 10, 20, c1, 20, 36, 10, 10, 20]
+            data: []
         }]
     });
+   
+    $.ajax({
+        type: "post",
+        url: "/MyAdmin/AdminIndex.aspx?flag=sname",
+        dataType: "JSON",
+        success: function (data) {
+            var varReceiver = data;
+            //alert(varReceiver);
 
-    $.post("/MyAdmin/AdminIndex.aspx","", function (data) {
-        var varReceiver = JSON.parse(data);
-        alert(varReceiver);
-    }, "JSON")
+            //var varReceiver = jQuery.parseJSON(data);  
+            //var varReceiver = JSON.parse(data);     //不需要转换为对象
 
-    //$.ajax({
-    //    type: "post",
-    //    url: "/MyAdmin/AdminIndex.aspx",
-    //    dataType: "json",
-    //    success: function (date) {
+            var varAxis = new Array();
 
-    //        var varReceiver = data;
-    //        //var varReceiver = jQuery.parseJSON(data);
-    //        //var a1 = JSON.parse(data)
+            var varSeries = new Array();
 
-    //        var varAxis = new Array();
-    //        //alert(data)
-    //        //alert(varReceiver);
+            for (var i = 0; i < Object.keys(varReceiver).length ; i++) {
+                varAxis[i] = varReceiver[i].sname;
+                varSeries[i] = varReceiver[i].housecount;
+            }
 
-    //        var varSeries = new Array(varReceiver.Count[0].total);
+            //alert(varAxis);  //所有sname
 
-    //        for (var i = 0; i < varReceiver.Count[0].total; i++) {
-    //            varAxis.push(varReceiver.Rows[i].sname);
-    //            varSeries[i] = varReceiver.Rows[i].housecount;
-    //        }
-    //        // 填入数据
-    //        myChart.setOption({
-    //            xAxis: {
-    //                data: varAxis
-    //            },
-    //            series: [{
-    //                //根据名字对应到相应的系列
-    //                name: '数量',
-    //                data: varSeries
-    //            }]
-    //        });
-    //    },
-    //    error: function (XMLHttpRequest, textStatus, errorThrown) {
-    //        alert(errorThrown);
-    //    }
-    //});
+            // 填入数据
+            myChart.setOption({
+                xAxis: {
+                    data: varAxis
+                },
+                series: [{
+                    //根据名字对应到相应的系列
+                    name: '数量',
+                    data: varSeries
+                }]
+            });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+
+    //-----------<用户类型统计>
 
     // 基于准备好的dom，初始化echarts实例
-    var chart = echarts.init(document.getElementById('main-bing'));
+    var chart_house = echarts.init(document.getElementById('main-bing'));
+
+    // 配置
+    chart_house.setOption({
+        title: {
+            text: '<用户类型统计>'
+        },
+        series : [
+            {
+                name: '用户类型统计',
+                type: 'pie',
+                radius: '55%',
+                //data:[
+                //    {value:28, name:'搜索引擎'},
+                //    {value:7, name:'直接访问'},
+                //    {value:2, name:'邮件营销'},
+                //    {value:30, name:'联盟广告'},
+                //    {value:22, name:'视频广告'}
+                //]
+                data: []
+            }
+        ]
+    });
+
+    $.ajax({
+        type: "post",
+        url: "/MyAdmin/AdminIndex.aspx?flag=sname",
+        dataType: "JSON",
+        success: function (data) {
+            var varReceiver = data;
+            //alert(varReceiver);
+
+            //var varReceiver = jQuery.parseJSON(data);  
+            //var varReceiver = JSON.parse(data);     //不需要转换为对象
+
+            var varSeries = new Array();
+
+            for (var i = 0; i < Object.keys(varReceiver).length ; i++) {
+                varSeries[i] = varReceiver[i].housecount;
+            }
+
+            alert(varReceiver);
+
+            // 填入数据
+            myChart.setOption({
+                //xAxis: {
+                //    data: varAxis
+                //},
+                //series: [{
+                //    //根据名字对应到相应的系列
+                //    name: '数量',
+                //    data: varSeries
+                //}]
+                series: {
+                    data: varSeries
+                }
+            });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+
+    //-----------<房屋发布统计>
+
+    // 基于准备好的dom，初始化echarts实例
+    var chart = echarts.init(document.getElementById('main-bing2'));
 
     // 配置
     chart.setOption({
-        series : [
+        title: {
+            text: '<房屋发布统计>'
+        },
+        series: [
             {
                 name: '访问来源',
                 type: 'pie',
                 radius: '55%',
-                data:[
-                    {value:28, name:'搜索引擎'},
-                    {value:7, name:'直接访问'},
-                    {value:2, name:'邮件营销'},
-                    {value:30, name:'联盟广告'},
-                    {value:22, name:'视频广告'}
+                data: [
+                    { value: 28, name: '搜索引擎' },
+                    { value: 7, name: '直接访问' },
+                    { value: 2, name: '邮件营销' },
+                    { value: 30, name: '联盟广告' },
+                    { value: 22, name: '视频广告' }
                 ]
             }
         ]
     });
+
+
+
 
     layui.use(['element'], function(){
         var element = layui.element

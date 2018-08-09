@@ -24,8 +24,9 @@ namespace myhouse.Web.MyAdmin
             SectionService sectionService = new SectionService();
             HouseService houseService = new HouseService();
 
+            string flag = Request["flag"];
 
-            if (IsPostBack)    //housecount
+            if (flag == "sname")
             {
                 sectionList = sectionService.GetModelList("");
 
@@ -42,12 +43,12 @@ namespace myhouse.Web.MyAdmin
 
                     if (sectionList[i].housecount > 0)
                     {
-                        ht.Add("sectionname", sectionList[i].sname);
+                        ht.Add("sname", sectionList[i].sname);
                         ht.Add("housecount", "" + sectionList[i].housecount + "");
                     }
                     else
                     {
-                        ht.Add("sectionname", sectionList[i].sname);
+                        ht.Add("sname", sectionList[i].sname);
                         ht.Add("housecount", "0");
                     }
 
@@ -58,65 +59,52 @@ namespace myhouse.Web.MyAdmin
 
                 jsonStr = ser.Serialize(housecountlist);
 
-                //string s1 =
-
                 Response.Write(jsonStr);
 
                 Response.End();
             }
+            else
+            {
 
+            }
 
+            //if (!IsPostBack)    //housecount
+            //{
+            //    sectionList = sectionService.GetModelList("");
 
+            //    foreach (Section section in sectionList)
+            //    {
+            //        section.housecount = houseService.GetRecordCount("sid =" + section.sid);
+            //    }
 
-                //}
-                //else
-                //{
-                //    Response.Write(jsonStr);
-                //}
+            //    ArrayList housecountlist = new ArrayList();
 
+            //    for (int i = 0; i < sectionList.Count; i++)
+            //    {
+            //        Hashtable ht = new Hashtable();
 
-                //if (IsPostBack)
-                //{
-                //    string json = "{";
+            //        if (sectionList[i].housecount > 0)
+            //        {
+            //            ht.Add("sectionname", sectionList[i].sname);
+            //            ht.Add("housecount", "" + sectionList[i].housecount + "");
+            //        }
+            //        else
+            //        {
+            //            ht.Add("sectionname", sectionList[i].sname);
+            //            ht.Add("housecount", "0");
+            //        }
 
-                //    sectionList = sectionService.GetModelList("");
+            //        housecountlist.Add(ht);
+            //    }
 
-                //    foreach (Section section in sectionList)
-                //    {
-                //        section.housecount = houseService.GetRecordCount("sid =" + section.sid);
-                //    }
+            //    JavaScriptSerializer ser = new JavaScriptSerializer();
 
-                //    for (int i = 0; i < sectionList.Count; i++)
-                //    {
-                //        if (sectionList[i].housecount > 0)
-                //        {
-                //            json += "\"" + sectionList[i].sname + "\":\"" + sectionList[i].housecount + "\",";
-                //        }
-                //        else
-                //        {
-                //            json += "\"" + sectionList[i].sname + "\":\"" + 0 + "\",";
-                //        }
-                //        json = json.Substring(0, json.Length - 1);
-                //        json += "}";
-                //        try
-                //        {
-                //            Response.Write(json);
-                //            Response.End();
-                //        }
-                //        catch (Exception)
-                //        {
-                //        }
-                //    }
-                //    //else
-                //    //{
-                //    //    Response.Write("NO");
-                //    //    Response.End();
-                //    //}
-                //}
-                //else
-                //{
+            //    jsonStr = ser.Serialize(housecountlist);
 
-                //}
+            //    Response.Write(jsonStr);
+
+            //    Response.End();
+            //}
 
             }
         }
