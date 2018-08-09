@@ -27,11 +27,16 @@
 <script src="/MyAdmin/js/jquery-1.11.1.js"></script>
 <script type="text/javascript">
 
-    //-------------------------
-    //////bar line pie  不同图形
-    //-------------------------
+    //在 layui 中使用 layer  
+    layui.use('layer', function () {
+        var layer = layui.layer;
+    });
 
-    //-----------<各板块下房屋数量统计>
+    //--------------------------
+    //////bar line pie  不同图形
+    //--------------------------
+
+//==============================<各板块下房屋数量统计>====================================//
 
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main-line'));
@@ -92,10 +97,12 @@
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(errorThrown);
+            layer.msg('数据加载失败!请刷新此页面...', { icon: 5 });
         }
     });
 
-    //-----------<用户类型统计>
+
+//==============================<用户类型统计>==================================//
 
     // 基于准备好的dom，初始化echarts实例
     var chart_house = echarts.init(document.getElementById('main-bing'));
@@ -117,43 +124,36 @@
                 //    {value:30, name:'联盟广告'},
                 //    {value:22, name:'视频广告'}
                 //]
-                data: []
+                data: [],
+
             }
         ]
     });
 
     $.ajax({
         type: "post",
-        url: "/MyAdmin/AdminIndex.aspx?flag=sname",
+        url: "/MyAdmin/AdminIndex.aspx?flag=usertype",
         dataType: "JSON",
         success: function (data) {
-            var varReceiver = data;
-            //alert(varReceiver);
+            //将json对象转换为字符串
+            //var usertype = JSON.stringify(data);
 
-            //var varReceiver = jQuery.parseJSON(data);  
-            //var varReceiver = JSON.parse(data);     //不需要转换为对象
-
-            var varSeries = new Array();
-
-            for (var i = 0; i < Object.keys(varReceiver).length ; i++) {
-                varSeries[i] = varReceiver[i].housecount;
+            var res = [];
+            //通过把usertype进行遍历循环来获取数据并放入Echarts中
+            for (var i = 0; i < Object.keys(data).length ; i++) {
+                res.push({
+                    name: data[i].usertype,
+                    value: data[i].usercount
+                });
             }
 
-            alert(varReceiver);
-
             // 填入数据
-            myChart.setOption({
-                //xAxis: {
-                //    data: varAxis
-                //},
-                //series: [{
-                //    //根据名字对应到相应的系列
-                //    name: '数量',
-                //    data: varSeries
-                //}]
-                series: {
-                    data: varSeries
-                }
+            chart_house.setOption({
+                series: [{
+                    //根据名字对应到相应的系列
+                    name: '用户类型统计',
+                    data: res
+                }]
             });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -161,7 +161,7 @@
         }
     });
 
-    //-----------<房屋发布统计>
+//======================<房屋发布统计>========================================//
 
     // 基于准备好的dom，初始化echarts实例
     var chart = echarts.init(document.getElementById('main-bing2'));

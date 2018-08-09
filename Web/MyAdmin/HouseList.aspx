@@ -40,7 +40,7 @@
         //    window.location.href = "/MyAdmin/AdminLogin.aspx";
         //}
 
-        //在 layui 中使用 layer  打开弹出层！！！
+        //在 layui 中使用 layer  
         layui.use('layer', function () {
             var layer = layui.layer;
         });
