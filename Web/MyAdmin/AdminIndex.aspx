@@ -10,10 +10,12 @@
     <title>地图插件</title>
     <link rel="stylesheet" href="/MyAdmin/frame/layui/css/layui.css">
     <link rel="stylesheet" href="/MyAdmin/frame/static/css/style.css">
-    <link rel="icon" href="/MyAdmin/frame/static/image/code.png">
+    <%--<link rel="icon" href="/MyAdmin/frame/static/image/code.png">--%>
 </head>
 <body class="body">
     <h1 style="font-size:30px;">蛋炒饭不加蛋</h1>
+    <input type="hidden" id="c1" value="80"/>
+
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 <div id="main-line" style="width: 100%;height:400px;"></div>
 
@@ -23,7 +25,8 @@
     <% 
 
     %>
-    <input type="hidden" id="c1" value="80"/>
+    
+
 
 </div>
 
@@ -39,67 +42,15 @@
     //var newArr = new Array();
     //newArr.push($("#c1").val());
 
-    var c1 = $("#c1").val()
+    var c1 = $("#c1").val();
 
     var t1 = "衬衫";
 
-    //bar line pie
+    //////bar line piek
+    //-------------------------
 
-    //$("docuemnt").ready($.post("/MyAdmin/AdminIndex.aspx", {}, function (result) {
-    //    alert(result);
-
-    //}, "json")
-    //);
-
-
-    //var xmlhttp = new XMLHttpRequest();
-    //xmlhttp.onreadystatechange = function () {
-    //    if (this.readyState == 4 && this.status == 200) {
-    //        myArr = JSON.parse(this.responseText);
-    //        //document.getElementById("demo").innerHTML = myArr[1];
-            
-    //    }
-    //};
-    //xmlhttp.open("GET", "/MyAdmin/AdminIndex.aspx", true);
-    //xmlhttp.send();
     
-    $.ajax({
-        type: "post",
-        url: "/MyAdmin/AdminIndex.aspx?flag=housecount",
-        dataType: "json",
-        success: function (data) {
-
-            //var varReceiver = data;
-            var varReceiver = jQuery.parseJSON(data);
-            var a1 = JSON.parse(data)
-            var varAxis = new Array();
-            alert(data)
-            alert(varReceiver);
-            alert(a1);
-
-            //var varSeries = new Array(varReceiver.Count[0].total);
-
-            //for (var i = 0; i < varReceiver.Count[0].total; i++) {
-            //    varAxis.push(varReceiver.Rows[i].RecordTime);
-            //    varSeries[i] = varReceiver.Rows[i].RoomTemp;
-            //}
-            //// 填入数据
-            //myChart.setOption({
-            //    xAxis: {
-            //        data: varAxis
-            //    },
-            //    series: [{
-            //        //根据名字对应到相应的系列
-            //        name: '温度',
-            //        data: varSeries
-            //    }]
-            //});
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(errorThrown);
-        }
-    });
-
+ 
 
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption({
@@ -120,6 +71,48 @@
             data: [c1, 20, 36, 10, 10, 20, c1, 20, 36, 10, 10, 20]
         }]
     });
+
+    $.post("/MyAdmin/AdminIndex.aspx","", function (data) {
+        var varReceiver = JSON.parse(data);
+        alert(varReceiver);
+    }, "JSON")
+
+    //$.ajax({
+    //    type: "post",
+    //    url: "/MyAdmin/AdminIndex.aspx",
+    //    dataType: "json",
+    //    success: function (date) {
+
+    //        var varReceiver = data;
+    //        //var varReceiver = jQuery.parseJSON(data);
+    //        //var a1 = JSON.parse(data)
+
+    //        var varAxis = new Array();
+    //        //alert(data)
+    //        //alert(varReceiver);
+
+    //        var varSeries = new Array(varReceiver.Count[0].total);
+
+    //        for (var i = 0; i < varReceiver.Count[0].total; i++) {
+    //            varAxis.push(varReceiver.Rows[i].sname);
+    //            varSeries[i] = varReceiver.Rows[i].housecount;
+    //        }
+    //        // 填入数据
+    //        myChart.setOption({
+    //            xAxis: {
+    //                data: varAxis
+    //            },
+    //            series: [{
+    //                //根据名字对应到相应的系列
+    //                name: '数量',
+    //                data: varSeries
+    //            }]
+    //        });
+    //    },
+    //    error: function (XMLHttpRequest, textStatus, errorThrown) {
+    //        alert(errorThrown);
+    //    }
+    //});
 
     // 基于准备好的dom，初始化echarts实例
     var chart = echarts.init(document.getElementById('main-bing'));
