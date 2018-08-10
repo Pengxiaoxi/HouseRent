@@ -883,6 +883,7 @@
     <Content Include="MyAdmin\My97DatePicker\开发包\skin\whyGreen\datepicker.css" />
     <Content Include="MyAdmin\My97DatePicker\开发包\skin\whyGreen\img.gif" />
     <Content Include="MyAdmin\PersonalInfo.aspx" />
+    <Content Include="MyAdmin\ReportInfo.aspx" />
     <Content Include="MyAdmin\SectionList.aspx" />
     <Content Include="MyAdmin\UserInfo.aspx" />
     <Content Include="MyAdmin\WorkerList.aspx" />
@@ -1240,6 +1241,13 @@
     </Compile>
     <Compile Include="MyAdmin\PersonalInfo.aspx.designer.cs">
       <DependentUpon>PersonalInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MyAdmin\ReportInfo.aspx.cs">
+      <DependentUpon>ReportInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyAdmin\ReportInfo.aspx.designer.cs">
+      <DependentUpon>ReportInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="MyAdmin\SectionList.aspx.cs">
       <DependentUpon>SectionList.aspx</DependentUpon>

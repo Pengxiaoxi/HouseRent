@@ -24,12 +24,24 @@
         	  <ul>
                   <%foreach (myhouse.Model.Announce announce in announceList)
                       {  %>
-        	  	<li>
-        	  		<p>
-        	  			<a href="/ViewAnnounceDetails.aspx?aid=<%=announce.aid %>" ><%=announce.atitle %></a>
-        	  			<span><%=announce.atime %></span> 
-        	  		</p>
-        	  	</li>
+                  
+                  <%
+                      if (announce.atype == "1   ")
+                      {%><li>
+                            <p>
+        	  			        <a style="color:orangered;" href="/ViewAnnounceDetails.aspx?aid=<%=announce.aid %>" ><%=announce.atitle %></a>
+        	  			        <span><%=announce.atime %></span> 
+        	  		        </p></li>
+                      <%}
+                      else
+                      {%><li>
+                            <p>
+        	  			        <a href="/ViewAnnounceDetails.aspx?aid=<%=announce.aid %>" ><%=announce.atitle %></a>
+        	  			        <span><%=announce.atime %></span> 
+        	  		        </p></li>
+                      <%}
+                       %>
+                 </li>
                 <%
                     }%>
               </ul>

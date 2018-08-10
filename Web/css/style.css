@@ -415,6 +415,13 @@ img.footer_icon{float:right;}
     float:right;
 }
 
+.details-report {
+    border-radius:5px;
+    background-color:orangered;
+    border:none;
+    color:white
+}
+
 .recommend {
     position:absolute;
     margin-top:30%;

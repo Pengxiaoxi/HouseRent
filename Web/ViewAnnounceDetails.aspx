@@ -27,7 +27,15 @@
         	<div class="newssub_content_top">
                 <h2><%=announce.atitle %></h2>
                 <div class="newssub_title mt10 mb10">
-            	    <span>发布日期：<font style="color:orangered;"><%=announce.atime %></font> &nbsp;&nbsp;&nbsp;&nbsp;发布人：<font style="color:orangered;"><%=announce.worker.wname %></font></span>
+            	    <span>发布日期：<font style="color:orangered;"><%=announce.atime %></font> &nbsp;&nbsp;&nbsp;&nbsp;发布人：[<font style="color:orangered;"><%=announce.worker.wname %></font>]&nbsp;
+                        <%
+                            if (announce.atype == "1   ")
+                            {%>
+                                <font style="color:orangered;">重要通知</font>
+                            <%}
+                            
+                             %>
+            	    </span>
                     <br />
                     <br />
                     <%--<div class="newssub_share">

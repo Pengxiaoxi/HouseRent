@@ -10,6 +10,7 @@
     <link rel="icon" href="/img/house.jpg"/>
 
     <script src="../lib/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/MyAdmin/frame/layui/layui.js"></script>
 
     <script type="text/javascript">
         function loginout() {
@@ -23,6 +24,26 @@
             var param = window.location.search;    //获取后面的参数
 	        window.location.href="/Login.aspx?prePage=" +curPage+param;    //跳转到目的地址并携带之前的参数
         }
+
+        ////在 layui 中使用 layer 
+        //layui.use('layer', function () {
+        //    var layer = layui.layer;
+        //});
+
+        //function alertuserinfo()
+        //{
+        //    layer.open({
+        //        type: 1,
+        //        //title: '修改用户信息',
+        //        area: ['800px', '500px'],
+        //        offset: '50px',
+        //        anim: 1,
+        //        skin: "myclass",
+        //        shade: 0.1,
+        //        content: "http://localhost:3448/UserInfo.aspx",
+        //    });
+        //}
+
 
     </script>
 </head>
@@ -43,7 +64,7 @@
 				<li ><a href="/MyHouse.aspx">我的房屋</a></li>
 				<li ><a href="/ViewAnnounce.aspx ">公告浏览</a></li>
                 <li ><a href="/MyCollect.aspx">我的收藏</a></li>
-				<%--<li ><a href="/UserInfo.aspx">个人信息</a></li>--%>
+				<%--<li ><a href="#" onclick="alertuserinfo()">个人信息</a></li>--%>
 				<li ><a href="/MyAdmin/AdminLogin.aspx">后台管理</a></li>
 			</ul>
 		</div>
@@ -66,6 +87,7 @@
                 {
              %>
                    欢迎您，<a style="color:dodgerblue;" href="/UserInfo.aspx"><%=((myhouse.Model.User)Session["userInfo"]).uname %></a>  &nbsp;
+                    <a href="/UserInfo.aspx">个人中心</a>
                    <input type="button" class="logout-button" onclick="loginout()" value="注销"/>&nbsp;
              <%
                  }
