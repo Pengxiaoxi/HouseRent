@@ -17,9 +17,13 @@
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 <div id="main-line" style="width: 100%;height:400px;"></div>
 
-<div id="main-bing" style="width: 50%;height:400px; float:left;"></div>
+<div style="width: 100%;height:400px;text-align:center;">
+    <div id="main-bing" style="width: 30%;height:400px; float:left;"></div>
 
-<div id="main-bing2" style="width: 50%;height:400px; float:right;"></div>
+    <div id="main-bing2" style="width: 30%;height:400px;float:left; "></div>
+
+    <div id="main-bar" style="width: 40%;height:400px; float:right;"></div>
+</div>
 
 
 <script type="text/javascript" src="/MyAdmin/frame/layui/layui.js"></script>
@@ -105,10 +109,10 @@
 //==============================<用户类型统计>==================================//
 
     // 基于准备好的dom，初始化echarts实例
-    var chart_house = echarts.init(document.getElementById('main-bing'));
+    var chart_user = echarts.init(document.getElementById('main-bing'));
 
     // 配置
-    chart_house.setOption({
+    chart_user.setOption({
         title: {
             text: '<用户类型统计>'
         },
@@ -125,7 +129,6 @@
                 //    {value:22, name:'视频广告'}
                 //]
                 data: [],
-
             }
         ]
     });
@@ -148,56 +151,144 @@
             }
 
             // 填入数据
-            chart_house.setOption({
+            chart_user.setOption({
                 series: [{
                     //根据名字对应到相应的系列
                     name: '用户类型统计',
-                    data: res
+                    data: res,
                 }]
             });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(errorThrown);
+            layer.msg('数据加载失败!请刷新此页面...', { icon: 5 });
         }
     });
 
-//======================<房屋发布统计>========================================//
+
+//==============================<房屋状态数量统计>==================================//
 
     // 基于准备好的dom，初始化echarts实例
-    var chart = echarts.init(document.getElementById('main-bing2'));
+    var chart_house = echarts.init(document.getElementById('main-bing2'));
 
     // 配置
-    chart.setOption({
+    chart_house.setOption({
         title: {
-            text: '<房屋发布统计>'
+            text: '<房屋状态统计>'
         },
         series: [
             {
-                name: '访问来源',
+                name: '用户类型统计',
                 type: 'pie',
-                radius: '55%',
-                data: [
-                    { value: 28, name: '搜索引擎' },
-                    { value: 7, name: '直接访问' },
-                    { value: 2, name: '邮件营销' },
-                    { value: 30, name: '联盟广告' },
-                    { value: 22, name: '视频广告' }
-                ]
+                radius: '45%',
+                data: [],
             }
         ]
     });
 
+    $.ajax({
+        type: "post",
+        url: "/MyAdmin/AdminIndex.aspx?flag=housestatus",
+        dataType: "JSON",
+        success: function (data) {
+            //将json对象转换为字符串
+            //var usertype = JSON.stringify(data);
 
-
-
-    layui.use(['element'], function(){
-        var element = layui.element
-            ,$      = layui.jquery;
-
-        // you code ...
-
-
+            var housestatuscount = [];
+            //通过把housestatus进行遍历循环来获取数据并放入Echarts中
+            for (var i = 0; i < Object.keys(data).length ; i++) {
+                housestatuscount.push({
+                    name: data[i].housestatus,
+                    value: data[i].housestatuscount
+                });
+            }
+            // 填入数据
+            chart_house.setOption({
+                series: [{
+                    //根据名字对应到相应的系列
+                    name: '用户类型统计',
+                    data: housestatuscount,
+                }]
+            });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+            layer.msg('数据加载失败!请刷新此页面...', { icon: 5 });
+        }
     });
+
+
+
+//======================<房屋发布统计--折线图>========================================//
+
+    //基于准备好的dom，初始化echarts实例
+    var chart_houseadd = echarts.init(document.getElementById('main-bar'));
+
+    // 使用刚指定的配置项和数据显示图表。
+    chart_houseadd.setOption({
+        title: {
+            text: '<日房屋发布数>'
+        },
+        tooltip: {},
+        legend: {
+            data: ['数量']
+        },
+        xAxis: {
+            data: []
+        },
+        yAxis: {},
+        series: [{
+            name: '数量',
+            type: 'line',
+            data: []
+        }]
+    });
+
+    $.ajax({
+        type: "post",
+        url: "/MyAdmin/AdminIndex.aspx?flag=houseadd",
+        dataType: "JSON",
+        success: function (data) {
+            //alert(data);
+
+            var varAxis_houseadd = new Array();
+
+            var varSeries_houseadd = new Array();
+
+            for (var i = 0; i < Object.keys(data).length ; i++) {
+                varAxis_houseadd[i] = data[i].housetime;
+                varSeries_houseadd[i] = data[i].dayhousecount;
+            }
+
+            // 填入数据
+            chart_houseadd.setOption({
+                xAxis: {
+                    data: varAxis_houseadd     //纵坐标  房屋数量
+                },
+                series: [{
+                    //根据名字对应到相应的系列
+                    name: '数量',
+                    data: varSeries_houseadd     //横坐标 日期
+                }]
+            });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+            layer.msg('数据加载失败!请刷新此页面...', { icon: 5 });
+        }
+    });
+
+
+
+    //layui.use(['element'], function(){
+    //    var element = layui.element
+    //        ,$      = layui.jquery;
+
+    //    // you code ...
+
+
+    //});
+
 </script>
 </body>
 </html>
