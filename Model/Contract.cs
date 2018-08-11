@@ -22,6 +22,9 @@ namespace myhouse.Model
 
         public List<House> houseList { get; set; }
 
+        public House house { get; set; }
+        public User user { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

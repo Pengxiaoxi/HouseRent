@@ -3,6 +3,10 @@ using System.Data;
 using System.Collections.Generic;
 using Maticsoft.Common;
 using myhouse.Model;
+using System.Collections;
+using System.Text;
+using Util;
+
 namespace myhouse.BLL
 {
 	/// <summary>
@@ -15,8 +19,16 @@ namespace myhouse.BLL
 		{}
         #region  BasicMethod
 
+        //收藏的房屋状态 8
+        public int collectstatus = 8;
+
         //前台每页显示的信息数量
         public int pagecount = 15;
+
+        //后台每页显示的数量
+        public int pagesize = 5;
+
+        public string orderby { get; set; }
 
         //房屋列表分页 后台传递不同的条件查询出需要的房屋信息列表
         public List<Contract> FindContractByPageWhere(string where, string order, int pagenumber, int pagecount)
@@ -27,6 +39,78 @@ namespace myhouse.BLL
 
             return contractList;
         }
+
+
+        //条件，排序分页查询
+        public ArrayList FindReportByPageOnWhere(int page, string hid, string cstatus, string order )
+        {
+            //条件拼接
+            StringBuilder strWhere = new StringBuilder();
+            //分页链接条件
+            StringBuilder param = new StringBuilder();
+
+            if (order == null || order == "0")
+            {
+                orderby = "cid desc";
+            }
+            else if (order == "1")
+            {
+                orderby = "cid asc";
+            }
+            else if (order == "2")
+            {
+                orderby = "hid asc";
+            }
+            else if (order == "3")
+            {
+                orderby = "uid asc";
+            }
+
+            strWhere.Append("cstatus= "+cstatus);
+            if (hid != null && !"".Equals(hid))
+            {
+                strWhere.Append("and hid= '" + hid + "'");
+            }
+            int record = this.GetRecordCount(strWhere.ToString());
+
+            int maxpage = 1;
+            if (record % pagesize == 0)
+            {
+                maxpage = record / pagesize;
+            }
+            else
+            {
+                maxpage = record / pagesize + 1;
+            }
+            if (page > maxpage)
+            {
+                page = maxpage;
+            }
+
+            List<Contract> contractList = this.FindContractByPageWhere(strWhere.ToString(), orderby, (page - 1) * pagesize + 1, page * pagesize);
+
+            // 分页链接条件拼接 param 注意空格
+            if (order != null && !"".Equals(order))
+            {
+                param.Append("order=" + order);
+            }
+            if (hid != null && !"".Equals(hid))
+            {
+                param.Append("&hid=" + hid);
+            }
+            if (cstatus != null && !"".Equals(cstatus))
+            {
+                param.Append("&cstatus=" + cstatus);
+            }
+            string pageCode = PageUtil.genPagination("/MyAdmin/ReportInfo.aspx",record, page, pagesize, param.ToString());
+
+            ArrayList list = new ArrayList();
+
+            list.Add(contractList);
+            list.Add(pageCode);
+            return list;
+        }
+
 
         //通过外键uid删除数据
         public bool DeleteByUid(int uid)

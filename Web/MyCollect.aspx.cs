@@ -70,7 +70,7 @@ namespace myhouse.Web
 
             //contractList = contractService.GetModelList("uid=" + uid);
 
-            contractList = contractService.FindContractByPageWhere("uid=" +uid, "", page, contractService.pagecount);
+            contractList = contractService.FindContractByPageWhere("uid='" +uid+ "' and cstatus= '" + contractService.collectstatus + "'", "", page, contractService.pagecount);
 
             foreach (Contract contract in contractList)
             {

@@ -175,7 +175,8 @@
                 }, "text");
             });
         }
-        //不允通过审核
+
+        //不允许通过审核
         function mynoreview(hid) {
             layer.confirm('您确定要不允许此条信息通过审核吗?', { icon: 3, title: '提示' }, function (index) {
                 $.post("/MyAdmin/HouseList.aspx?flag=review&param=no", { hid: hid }, function (result) {

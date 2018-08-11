@@ -30,7 +30,7 @@ namespace myhouse.Web.MyAdmin
         public string hmode { get; set; }
         public string hstatus { get; set; }
         public string order { get; set; }
-        public string orderby { get; set; }
+        //public string orderby { get; set; }
 
         //页面载入事件
         protected void Page_Load(object sender, EventArgs e)

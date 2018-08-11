@@ -88,7 +88,7 @@ namespace myhouse.Web
         {
             int uid = ((User)Session["userInfo"]).uid;
 
-            contractList = contractService.GetModelList("uid='" + uid + "' and hid=" + hid);
+            contractList = contractService.GetModelList("uid='" + uid + "' and hid='" + hid + "' and cstatus= '"+contractService.collectstatus+"'" );
 
             //不存在则执行添加方法，已存在则取消收藏执行删除方法
             if (contractList.Count == 0)
@@ -96,6 +96,7 @@ namespace myhouse.Web
                 Contract contract = new Contract();
                 contract.hid = hid;
                 contract.uid = uid;
+                contract.cstatus = contractService.collectstatus;
                 if (contractService.Add(contract) > 0)
                 {
                     Response.Write(true);
