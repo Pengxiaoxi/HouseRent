@@ -123,7 +123,7 @@
             });
         }
 
-        //房屋信息批量删除
+        //用户信息批量删除
         function deletelist() {
             //获取勾选的check的值
             var idlist = new Array();

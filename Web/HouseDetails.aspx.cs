@@ -133,7 +133,7 @@ namespace myhouse.Web
             contract.uid = ((User)Session["userInfo"]).uid;
             contract.hid = Int32.Parse(Request["hid"]);
             contract.ccontent = Request["reportcontent"];
-            contract.cstatus = 1;   //举报信息
+            contract.cstatus = 0;   //举报信息
 
             if (contractService.Add(contract) > 0)
             {

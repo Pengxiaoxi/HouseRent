@@ -66,6 +66,11 @@ namespace myhouse.BLL
                 orderby = "uid asc";
             }
 
+            if (cstatus == null || "".Equals(cstatus))
+            {
+                cstatus = "0";
+            }
+
             strWhere.Append("cstatus= "+cstatus);
             if (hid != null && !"".Equals(hid))
             {
@@ -86,21 +91,21 @@ namespace myhouse.BLL
             {
                 page = maxpage;
             }
-
-            List<Contract> contractList = this.FindContractByPageWhere(strWhere.ToString(), orderby, (page - 1) * pagesize + 1, page * pagesize);
+            //条件分页查询举报信息
+            List<Contract> contractList = this.FindContractByPageWhere(strWhere.ToString(), orderby, page, pagesize );
 
             // 分页链接条件拼接 param 注意空格
+            if (cstatus != null && !"".Equals(cstatus))
+            {
+                param.Append("cstatus=" + cstatus);
+            }
             if (order != null && !"".Equals(order))
             {
-                param.Append("order=" + order);
+                param.Append("&order=" + order);
             }
             if (hid != null && !"".Equals(hid))
             {
                 param.Append("&hid=" + hid);
-            }
-            if (cstatus != null && !"".Equals(cstatus))
-            {
-                param.Append("&cstatus=" + cstatus);
             }
             string pageCode = PageUtil.genPagination("/MyAdmin/ReportInfo.aspx",record, page, pagesize, param.ToString());
 

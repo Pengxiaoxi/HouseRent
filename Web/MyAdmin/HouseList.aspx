@@ -352,7 +352,7 @@
                     <tr >
                         <td><input type="checkbox" name="check" value="<%=house.hid %>"/></td>
                         <td><%=house.hid %></td>
-                        <td><%=house.hname %></td>
+                        <td><a href="/HouseDetails.aspx?hid=<%=house.hid %>" target="_blank"><%=house.hname %></a></td>
                         <td><%=house.housetype.ttype %></td>
                         <td><%=house.section.sname %></td>
                         <td><%=house.hsize %></td>
