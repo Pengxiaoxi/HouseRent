@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>我的收藏</title>
 <link href="MyAdmin/frame/layui/css/bootstrap.min2.css" rel="stylesheet" />
+    <link rel="icon" href="/img/house.jpg"/>
     <script src="MyAdmin/js/jquery-1.11.1.js"></script>
     <script>
         function mycollect(hid)

@@ -6,9 +6,9 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>房屋详情</title>
-    <link href="css/style.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet" />
-    <link href="static/h-ui.admin/css/style.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/static/h-ui.admin/css/style.css" rel="stylesheet" />
     
     <script src="/MyAdmin/js/jquery-1.11.1.js"></script>
     <script src="/MyAdmin/frame/layui/layui.js"></script>

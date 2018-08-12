@@ -9,6 +9,7 @@
 
 <link href="css/style-announce.css" rel="stylesheet" />
 <link href="MyAdmin/frame/layui/css/bootstrap.min2.css" rel="stylesheet" />
+    <link rel="icon" href="/img/house.jpg"/>
 
 
 </head>
