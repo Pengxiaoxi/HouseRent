@@ -225,7 +225,6 @@
             $("#simg2").uploadPreview({ Img: "imgPr2", Width: 220, Height: 200 });
             $("#simg3").uploadPreview({ Img: "imgPr3", Width: 220, Height: 200 });
             $("#simg4").uploadPreview({ Img: "imgPr4", Width: 220, Height: 200 });
-
         });
     </script>
 
@@ -256,7 +255,7 @@
                             <%
                                 foreach (myhouse.Model.Section section in sectionList)
                                 {%>
-                                    <option value="<%=section.sid %>   " <%=sid == section.sid.ToString() ? "selected" : "" %> ><%=section.sname %></option>
+                                    <option value="<%=section.sid %>" <%=sid == section.sid.ToString() ? "selected" : "" %> ><%=section.sname %></option>
                                 <%}
                             %>
                         </select>

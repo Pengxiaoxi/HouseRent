@@ -12,15 +12,18 @@
     <script>
         function mycollect(hid)
         {
-            $.post("/MyCollect.aspx?flag=cancelcollect", { hid: hid }, function (result) {
-                if (result) {
-                    alert("成功取消收藏该房屋！");
-                    setTimeout('window.location.reload(true)', 800)
-                }
-                else {
-                    alert("取消收藏失败！")
-                }
-            });
+            if (confirm("您确定要取消收藏该房屋吗?"))
+            {
+                $.post("/MyCollect.aspx?flag=cancelcollect", { hid: hid }, function (result) {
+                    if (result) {
+                        alert("成功取消收藏该房屋！");
+                        setTimeout('window.location.reload(true)', 0)
+                    }
+                    else {
+                        alert("取消收藏失败！")
+                    }
+                });
+            }
         }
     </script>
 

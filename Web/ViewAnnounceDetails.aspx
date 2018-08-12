@@ -31,7 +31,7 @@
                         <%
                             if (announce.atype == "1   ")
                             {%>
-                                <font style="color:orangered;">重要通知</font>
+                                <font style="color:red;">《重要》</font>
                             <%}
                             
                              %>

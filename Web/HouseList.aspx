@@ -14,12 +14,6 @@
     {
         window.history.go(-1);
     }
-
-    //function clear()
-    //{
-    //    $("div option:empty");
-    //}
-
 </script>
 
 
@@ -71,6 +65,7 @@
                                         <option <%=money == "2000-100000" ? "selected" : "" %> >2000-100000</option>
                                     </select>
                                     <button type="submit" onclick="">查找</button>
+                                    <button type="button" onclick="window.location.reload(true)">刷新</button>
                                     <%--<button type="button" onclick="clear()">清除选择</button>--%>
                                 </span>
                                 
