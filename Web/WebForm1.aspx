@@ -20,11 +20,14 @@
 
 <body>
   <!--百度地图容器-->
-  <div style="width:800px;height:300px;border:#ccc solid 1px;" id="dituContent"></div>
+  <div style="width:800px;height:360px;border:#ccc solid 1px;" id="dituContent"></div>
+
+ <div>
+     <input type="hidden" id="houseadress" value="黄石市湖北理工学院"/>
+     <input type="hidden" id="housecommunity" value="团城山重点大学"/>
+ </div>
 
 </body>
-
-  
 
 <script type="text/javascript">
     //创建和初始化地图函数：
@@ -34,12 +37,46 @@
         addMapControl();//向地图添加控件
     }
     
+    //=========
+    // 创建地址解析器实例
+    var myGeo = new BMap.Geocoder();
+    // 将地址解析结果显示在地图上,并调整地图视野
+    myGeo.getPoint($("#houseadress").val(), function (point) {
+        if (point) {
+            map.centerAndZoom(point, 15);
+            map.addOverlay(new BMap.Marker(point));
+
+            var marker = new BMap.Marker(point);  // 创建标注
+            map.addOverlay(marker);              // 将标注添加到地图中
+
+            var label = new BMap.Label($("#housecommunity").val(), { offset: new BMap.Size(10, -50) });
+            label.setStyle({  //文字标签样式
+                color: "white",
+                background: "orangered",
+                fontSize: "16px",
+                height: "20px",
+                lineHeight: "20px",
+                fontFamily: "微软雅黑"
+            });
+            marker.setLabel(label);
+
+            var circle = new BMap.Circle(point, 300, { strokeColor: "limegreen", strokeWeight: 1, strokeStyle: 'solid', fillColor: "limegreen", fillOpacity: 0.1 });  //设置覆盖物的颜色边框透明度等
+            map.addOverlay(circle);            //增加圆
+            hideOver();
+
+        } else {
+            //alert("您选择地址没有解析到结果!");
+            alert("地址有点问题暂时没有地图信息!");
+        }
+    }, "黄石市");
+    //=========
+
     //创建地图函数：
     function createMap(){
         var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
-        var point = new BMap.Point(115.045433,30.205336);//定义一个中心点坐标
-        map.centerAndZoom(point,13);//设定地图的中心点和坐标并将地图显示在地图容器中
-        window.map = map;//将map变量存储在全局
+        var point = new BMap.Point(115.03,30.20);//定义一个中心点坐标（黄石）
+        map.centerAndZoom(point,16);//设定地图的中心点和坐标并将地图显示在地图容器中
+        window.map = map;//将map变量存储在全局  
     }
     
     //地图事件设置函数：
@@ -62,8 +99,6 @@
 	var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
 	map.addControl(ctrl_sca);
     }
-    
-    
     initMap();//创建和初始化地图
 </script>
 </html>

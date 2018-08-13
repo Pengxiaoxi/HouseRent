@@ -336,8 +336,8 @@ img.footer_icon{float:right;}
 
 
 .details {
-    margin-top: 20px;
-    margin-left:50px;
+    top: 20px;
+    left:50px;
     margin-right:50px;
     width:100%;
     text-align:center;
@@ -370,7 +370,7 @@ img.footer_icon{float:right;}
 
 .details-font {
     position:absolute;
-    margin-left:48%;
+    left:730px;
 }
 
 .details-href {
@@ -380,7 +380,7 @@ img.footer_icon{float:right;}
 
 .details-b {
     /*float:left;*/
-    margin-left:30px;
+    left:30px;
     margin:2px,auto;
     font-size:16px;
     text-align:left;
@@ -424,12 +424,22 @@ img.footer_icon{float:right;}
 
 .recommend {
     position:absolute;
-    margin-top:30%;
-    margin-left:12%;
+    top:680px;
+    left:12%;
     width:68%;
     height:230px;
     /*border:1px solid red;*/
 }
+
+.details-map {
+    position:absolute;
+    width:800px;
+    height:360px;
+    left:200px;
+    border:#ccc solid 1px;
+    top:680px;
+}
+
 
 .r1 {
     color:limegreen;
@@ -449,9 +459,9 @@ img.footer_icon{float:right;}
             width: 400px;
             height: 320px;
             overflow: hidden;/*Òþ²ØÒç³öµÄÍ¼Æ¬*/
-            margin-left:10%;
-            margin-top:60px;
-            margin-left:150px;
+            left:10%;
+            top:330px;
+            left:200px;
             /*border-radius:20px;*/
         }
         .pic{
