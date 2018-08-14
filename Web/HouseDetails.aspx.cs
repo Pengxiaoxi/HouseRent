@@ -15,6 +15,8 @@ namespace myhouse.Web
         public string housetype { get; set; }
         public string housearea { get; set; }
         public string housesection { get; set; }
+        public string houseadress { get; set; }
+        public string housecommunity { get; set; }
         public List<House> tjhouse { get; set; }
         public List<Contract> contractList { get; set; }
 
@@ -61,6 +63,10 @@ namespace myhouse.Web
             housearea = areaService.GetModel((int)house.harea).areaname;
 
             housesection = sectionService.GetModel(house.sid).sname;
+            //房屋所在小区与地址，地图使用
+            houseadress = house.hadress;
+            housecommunity = house.hcommunity;
+
 
             if (Session["userInfo"] != null)
             {

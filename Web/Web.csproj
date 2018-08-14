@@ -850,6 +850,7 @@
     <Content Include="MyAdmin\frame\static\js\vip_tab.js" />
     <Content Include="MyAdmin\frame\static\js\vip_table.js" />
     <Content Include="MyAdmin\HouseList.aspx" />
+    <Content Include="MyAdmin\js\api.js" />
     <Content Include="MyAdmin\js\index.js" />
     <Content Include="MyAdmin\js\jquery-1.11.1.js" />
     <Content Include="MyAdmin\js\layer.js" />

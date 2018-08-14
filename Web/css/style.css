@@ -347,7 +347,7 @@ img.footer_icon{float:right;}
 
 .details-img{
     /*position:absolute;*/
-    margin-left:20px;
+    margin-left:10px;
     margin-top:10px;
     float:left;
     /*width:440px;*/
@@ -356,7 +356,7 @@ img.footer_icon{float:right;}
     .details-img img {
         width: 200px; 
         border-radius:20px;
-        margin:10px;
+        margin:15px;
     }
 
     .details-img li {
@@ -424,16 +424,16 @@ img.footer_icon{float:right;}
 
 .recommend {
     position:absolute;
-    top:680px;
-    left:12%;
-    width:68%;
+    top:1060px;
+    left:200px;
+    width:70%;
     height:230px;
     /*border:1px solid red;*/
 }
 
 .details-map {
     position:absolute;
-    width:800px;
+    width:70%;
     height:360px;
     left:200px;
     border:#ccc solid 1px;
@@ -443,7 +443,7 @@ img.footer_icon{float:right;}
 
 .r1 {
     color:limegreen;
-    margin-left:20px;
+    left:200px;
 }
 
 

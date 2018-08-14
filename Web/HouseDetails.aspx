@@ -12,7 +12,7 @@
     
     <script src="/MyAdmin/js/jquery-1.11.1.js"></script>
     <script src="/MyAdmin/frame/layui/layui.js"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?key=olGdVWrNbUSZLxTNnppasdzz6Sw845D6&v=1.1&services=true"></script>
     <script type="text/javascript" src="/MyAdmin/js/jquery-1.11.1.js"></script>
 
     <style type="text/css">
@@ -172,8 +172,16 @@
                         </div>
 					</div>           
 		</div>
+         <!--百度地图容器-->
+        <%--<p>团城山至尊门第</p>--%>
+        <div class="details-map" id="dituContent"></div>
 
-        <%--<div class="recommend">
+        <div>
+             <input type="hidden" id="houseadress" value="<%=houseadress %>"/>
+             <input type="hidden" id="housecommunity" value="<%=housecommunity %>"/>
+        </div>
+
+        <div class="recommend">
             <div class="r1" style="width:80px;">
                 <a>猜你喜欢</a> 
             </div>
@@ -201,14 +209,7 @@
                     </li>
                 </ul>
 			</div>
-        </div>--%>
-            <!--百度地图容器-->
-        <div class="details-map" id="dituContent"></div>
-
-        <div>
-             <input type="hidden" id="houseadress" value="黄石市湖北理工学院"/>
-             <input type="hidden" id="housecommunity" value="团城山重点大学"/>
-        </div>
+        </div>         
      </div>
 </form>
     <%--举报div弹出--%>
@@ -262,7 +263,7 @@
             });
             marker.setLabel(label);
 
-            var circle = new BMap.Circle(point, 300, { strokeColor: "limegreen", strokeWeight: 1, strokeStyle: 'solid', fillColor: "limegreen", fillOpacity: 0.1 });  //设置覆盖物的颜色边框透明度等
+            var circle = new BMap.Circle(point, 240, { strokeColor: "limegreen", strokeWeight: 1, strokeStyle: 'solid', fillColor: "limegreen", fillOpacity: 0.1 });  //设置覆盖物的颜色边框透明度等
             map.addOverlay(circle);            //增加圆
             hideOver();
 
