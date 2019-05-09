@@ -97,7 +97,7 @@
 
         layer.open({
             type: 1,
-            title: '添加员工信息',
+            title: '修改员工信息',
             area: ['800px', '500px'],
             offset: '20px',
             anim: 1,

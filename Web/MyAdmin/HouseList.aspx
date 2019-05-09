@@ -82,7 +82,7 @@
 
             layer.open({
                 type: 1,
-                title: '发布公告信息',
+                title: '修改房屋信息',
                 area: ['800px', '500px'],
                 offset: '20px',
                 anim: 1,
